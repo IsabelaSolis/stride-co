@@ -1,10 +1,30 @@
 {
   "name": "stride-co",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "This app is for the company Stride-co",
+  "keywords": [
+    "app",
+    "js",
+    "node"
+  ],
+  "homepage": "https://github.com/IsabelaSolis/stride-co#readme",
+  "bugs": {
+    "url": "https://github.com/IsabelaSolis/stride-co/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IsabelaSolis/stride-co.git"
+  },
+  "license": "ISC",
+  "author": "Isabela y Janely",
+  "type": "commonjs",
+  "main": "app.js",
   "scripts": {
     "start": "node ./bin/www",
-    "dev":"supervisor ./bin/www"
+    "dev": "supervisor ./bin/www",
+    "lint": "eslint .",
+    "test": "jest"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,5 +33,11 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.10.0",
+    "jest": "^30.5.1",
+    "supertest": "^7.2.2"
   }
 }
