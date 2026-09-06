@@ -139,7 +139,6 @@ stride-co/
 ```
 
 ## Control de versiones
-El historial de commits sigue la especificación [Conventional Commits](https://www.conventionalcommits.org/), por ejemplo:
 - `feat: agregar rutas de products`
 - `fix: eliminar node_modules del repositorio`
 - `test: agregar pruebas de estructura y solicitudes incorrectas`
