@@ -1,7 +1,3 @@
-# stride-co
-Aplicación web para la gestión de ventas, inventario y pedidos de Stride &amp; Co.  
-Stride Co. presenta dificultades en la gestión de sus procesos de venta y seguimiento de pedidos, debido a que gran parte de estas actividades se realizan mediante chats y comunicación manual. Esta situación puede ocasionar pérdida o duplicidad de pedidos, falta de información actualizada sobre el inventario y dificultades para consultar el estado de pagos y órdenes. Asimismo, los vendedores y el área de operaciones necesitan mantener una comunicación constante para conocer la disponibilidad de productos, identificar pedidos pendientes y verificar aquellos que ya han sido pagados.  
-
 # Stride & Co. — Backend API
 
 ## Datos académicos
@@ -14,17 +10,22 @@ Stride Co. presenta dificultades en la gestión de sus procesos de venta y segui
 | **Materia** | Web Platforms |
 | **Docente** | Mtro. Luis Antonio Ramírez Martínez |
 | **Actividad** | Proyecto Integrador — Entregable 1. Configuración inicial del backend |
-| **Alumnas** | Isabela Solís, Janely Monreal |
+| **Alumnas** | Isabela Jazmín Solís Castillo, Janely Monreal Torres |
 | **Matrícula** | 376827, 377112 |
-| **Fecha de entrega** | [06/09/2026] |
+| **Fecha de entrega** | 06/09/2026 |
 
 ## Descripción
-Desarrollamos el backend inicial de la aplicación **Stride & Co.**, desarrollado con Node.js y Express Generator. Define la arquitectura base del proyecto (rutas, controladores y respuestas mock) para los principales recursos del sistema: usuarios, roles, permisos, productos, variantes, inventario, clientes y órdenes.
+
+Aplicación web para la gestión de ventas, inventario y pedidos de Stride & Co. Actualmente, Stride & Co. presenta dificultades en la gestión de sus procesos de venta y seguimiento de pedidos, ya que gran parte de estas actividades se realizan mediante chats y comunicación manual. Esto puede ocasionar pérdida o duplicidad de pedidos, falta de información actualizada sobre el inventario, y dificultades para consultar el estado de pagos y órdenes. Asimismo, vendedores y el área de operaciones necesitan mantener comunicación constante para conocer la disponibilidad de productos, identificar pedidos pendientes y verificar cuáles ya han sido pagados.
+
+Para este entregable, desarrollamos el backend inicial de la aplicación con Node.js y Express Generator, definiendo la arquitectura base del proyecto (rutas, controladores y respuestas mock) para los principales recursos del sistema: usuarios, roles, permisos, productos, variantes, inventario, clientes y órdenes.
 
 ## Objetivo
+
 Configurar la base técnica del backend de Stride & Co., aplicando una separación clara de responsabilidades entre rutas y controladores, así como buenas prácticas de control de versiones, calidad de código y pruebas automatizadas.
 
 ## Tecnologías utilizadas
+
 - Node.js
 - Express 4 (generado con Express Generator)
 - ESLint 10 (`@eslint/js`)
@@ -38,6 +39,7 @@ Configurar la base técnica del backend de Stride & Co., aplicando una separaci�
 - Git
 
 ## Instalación
+
 ```bash
 git clone https://github.com/IsabelaSolis/stride-co.git
 cd stride-co
@@ -59,6 +61,7 @@ npm run dev
 ```
 
 ## Scripts / comandos disponibles
+
 | Comando | Descripción |
 |---|---|
 | `npm start` | Levanta el servidor en modo producción |
@@ -84,13 +87,13 @@ Todos los recursos están montados bajo el prefijo `/api/v1/`. En esta etapa **t
 
 `rolePermissions` no implementa `PUT`, ya que su llave está compuesta por `roleId` y `permissionId`, y no tiene sentido actualizar una relación en lugar de eliminarla y volver a crearla.
 
-
-
 ## Pruebas
+
 ```bash
 npm test
 ```
-Para ver el detalle de cada prueba ejecutada utilizamos un nuevo comando:
+
+Para ver el detalle de cada prueba ejecutada:
 
 ```bash
 npx jest --verbose
@@ -105,7 +108,7 @@ Cada recurso cuenta con pruebas que cubren:
 - Comportamiento ante solicitudes con body vacío o incompleto.
 
 Evidencia de ejecución:
-Se supone que tiene que salir de esta manera 
+
 ```
 Test Suites: 9 passed, 9 total
 Tests:       60 passed, 60 total
@@ -115,13 +118,15 @@ Ran all test suites.
 ```
 
 ## Análisis de calidad de código
-El proyecto usa ESLint (`eslint.config.js`) con la configuración recomendada de `@eslint/js`, para Node.js (CommonJS) y para los archivos de prueba de Jest.
+
+El proyecto usa ESLint (`eslint.config.js`) con la configuración recomendada de `@eslint/js`, adaptada para Node.js (CommonJS) y para los archivos de prueba de Jest.
 
 ```bash
 npm run lint
 ```
 
 ## Estructura general del proyecto
+
 ```text
 stride-co/
 |-- bin/
@@ -139,15 +144,19 @@ stride-co/
 ```
 
 ## Control de versiones
+
 El historial de commits sigue la especificación [Conventional Commits](https://www.conventionalcommits.org/), por ejemplo:
+
 - `feat: agregar rutas de products`
 - `fix: eliminar node_modules del repositorio`
 - `test: agregar pruebas de estructura y solicitudes incorrectas`
 - `docs: actualizar README`
 
 ## Alcance de esta etapa
+
 Este entregable **no incluye** base de datos, autenticación, autorización, ni reglas de negocio. Estos puntos se incorporarán progresivamente en las siguientes etapas del proyecto.
 
 ## Autor
-Isabela Jazmin Solís Castillo— 376827
+
+Isabela Jazmín Solís Castillo — 376827
 Janely Monreal Torres — 377112
