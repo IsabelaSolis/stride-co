@@ -8,5 +8,4 @@ router.get('/',(req, res, next) =>{
 });
 
 router.get('/health', controller.healthCheck);
-
 module.exports = router;
