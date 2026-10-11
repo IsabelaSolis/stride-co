@@ -1,23 +1,31 @@
-
-//create
-function create(req, res, next) {
-  res.status(201).json({message:'create customer', data:{}});
+const {Customer}= require('../models/documents');
+// create
+async function create(req, res) {
+  const customer = await Customer.create(req.body);
+  res.status(201).json({ message: 'Customer created', data: customer });
 }
-//find
-function list(req, res, next) {
-  res.json({message:'list customers', data:[]});
+// list
+async function list(req, res) {
+  const customers = await Customer.find();
+  res.json({ message: 'GET customers', data: customers });
 }
-//find by id
-function find(req, res, next) {
-  res.json({message:'find a customer by id', data:{}});
+// find by id
+async function find(req, res) {
+  const customer = await Customer.findById(req.params.id);
+  if(!customer) res.status(404).json({message: 'Customer not found'});
+  res.json({ message: 'GET customer by id', data: customer });
 }
-//update
-function update(req, res, next) {
-  res.json({message:'update customer by id', data:{}});
+// update
+async function update(req, res) {
+  const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+  if(!customer) res.status(404).json({message: 'Customer not found'});
+  res.json({ message: 'Customer updated', data: customer });
 }
-//destroy
-function destroy(req, res, next) {
-  res.json({message:'delete customer by id',data:{}});
+// destroy
+async function destroy(req, res) {
+  const customer = await Customer.findByIdAndDelete(req.params.id);
+  if(!customer) res.status(404).json({message: 'Customer not found'});
+  res.json({ message: 'Customer deleted', data: { id: customer._id } });
 }
 
 
