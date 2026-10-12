@@ -156,6 +156,37 @@ El historial de commits sigue la especificación [Conventional Commits](https://
 
 Este entregable **no incluye** base de datos, autenticación, autorización, ni reglas de negocio. Estos puntos se incorporarán progresivamente en las siguientes etapas del proyecto.
 
+## Autenticación
+### Método utilizado para proteger contraseñas
+
+Las contraseñas nunca se almacenan en texto plano. Se protegen con **bcrypt**:
+
+1. Se genera un salt con `bcrypt.genSalt(10)`.
+2. Se calcula el hash con `bcrypt.hash(password, salt)`.
+3. Se guardan en la base de datos el hash y el salt.
+
+- **Campo `password`:** guarda el hash resultante de bcrypt.
+- **Campo `salt_key`:** guarda el salt generado con `bcrypt.genSalt()`.
+- Al crear un usuario o cambiar su contraseña se genera un nuevo salt y un nuevo hash.
+- Para verificar la contraseña se usa `bcrypt.compare`, sin volver a calcular el hash.
+
+La lógica está separada del controller de usuarios, en `utils/password.js`, con las funciones `hashPassword` y `verifyPassword`.
+
+### Endpoint de login
+
+`POST /api/v1/auth/login`
+Funcionamiento:
+
+1. Busca el usuario por email.
+2. Valida que exista y esté activo (`active = true`).
+3. Verifica la contraseña con `bcrypt.compare`.
+
+Respuestas:
+
+| Situación | Código | Respuesta |
+|---|---|---|
+| Credenciales correctas | 200 | `{ "message": "Login successful" }` |
+| Email inexistente, contraseña incorrecta o usuario inactivo | 401 | `{ "message": "Invalid Credentials" }` |
 ## Autor
 
 Isabela Jazmín Solís Castillo — 376827
