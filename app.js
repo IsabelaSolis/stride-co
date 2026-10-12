@@ -14,6 +14,7 @@ var roleRouter = require('./routes/role');
 var rolePermissionRouter = require('./routes/rolePermission');
 var customerRouter = require('./routes/customer');
 var orderRouter = require('./routes/order');
+var authRouter = require('./routes/auth');
 var app = express();
 
 // view engine setup
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //conectamos cada router a un URL especifico
 app.use('/', indexRouter);
+app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/variants', productVariantRouter);
