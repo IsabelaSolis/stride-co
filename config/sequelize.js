@@ -12,7 +12,7 @@ const sequelize = new Sequelize(
         // host: define la dirección del servidor de la base datos
         host: 'localhost',
         // port: El puerto en el que atiende nuestro servidor de base de datos.
-        port: 3307,
+        port: 3306,
         // dialect: Es la propiedad donde definimos la base de datos especificamente que vamos a usar.
         dialect: 'mysql',
         logging: false,

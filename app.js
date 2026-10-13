@@ -3,6 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const {expressjwt}=require('express-jwt');
+
+
+
 //importamos el modulo de rutas 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,6 +20,9 @@ var customerRouter = require('./routes/customer');
 var orderRouter = require('./routes/order');
 var authRouter = require('./routes/auth');
 var app = express();
+const secret="4524ae5b264e28b9a409c98a3b4314a1";
+
+app.use(expressjwt({secret, algorithms:['HS256']}).unless({path:["/api/v1/auth/login"]}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
