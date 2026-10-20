@@ -3,6 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+<<<<<<< Updated upstream
+=======
+const {expressjwt}=require('express-jwt');
+const i18n = require('./config/i18n');
+
+
+>>>>>>> Stashed changes
 //importamos el modulo de rutas 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -25,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(i18n.init);
 
 //conectamos cada router a un URL especifico
 app.use('/', indexRouter);
