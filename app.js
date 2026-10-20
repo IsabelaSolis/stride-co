@@ -6,6 +6,9 @@ var logger = require('morgan');
 const {expressjwt}=require('express-jwt');
 
 
+const i18n=require('./config/i18n');
+
+
 
 //importamos el modulo de rutas 
 var indexRouter = require('./routes/index');
@@ -22,6 +25,7 @@ var authRouter = require('./routes/auth');
 var app = express();
 const secret="4524ae5b264e28b9a409c98a3b4314a1";
 
+
 app.use(expressjwt({secret, algorithms:['HS256']}).unless({path:["/api/v1/auth/login"]}));
 
 // view engine setup
@@ -33,6 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(i18n.init);
 
 //conectamos cada router a un URL especifico
 app.use('/', indexRouter);

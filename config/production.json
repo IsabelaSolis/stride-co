@@ -1,0 +1,9 @@
+{
+    "mysql": {
+        "host":"localhost",
+        "port":3306,
+        "database":"stride-co-prod",
+        "user":"root",
+        "password":"abcd1234"
+    }
+}
