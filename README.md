@@ -156,6 +156,82 @@ El historial de commits sigue la especificación [Conventional Commits](https://
 
 Este entregable **no incluye** base de datos, autenticación, autorización, ni reglas de negocio. Estos puntos se incorporarán progresivamente en las siguientes etapas del proyecto.
 
+## Control de acceso basado en roles
+### Roles utilizados
+
+| Rol | Descripción |
+|---|---|
+| `admin` | Administrador: gestiona productos y consulta usuarios y órdenes. |
+| `sales` | Ventas: consulta productos y trabaja con órdenes. |
+| `user` | Usuario: consulta productos y gestiona sus propias órdenes. |
+
+### Permisos definidos
+
+| Key | Descripción |
+|---|---|
+| `products:read:any` | Consultar cualquier producto |
+| `products:create:any` | Crear productos |
+| `products:update:any` | Actualizar cualquier producto |
+| `products:delete:any` | Eliminar cualquier producto |
+| `orders:create:any` | Crear órdenes |
+| `orders:read:own` | Consultar órdenes propias |
+| `orders:read:any` | Consultar cualquier orden |
+| `orders:update:own` | Actualizar órdenes propias |
+| `users:read:any` | Consultar cualquier usuario |
+
+### Convención utilizada para Permission.key.
+Cada permiso se guarda en `Permission.key` con el formato `recurso:acción:alcance`:
+
+```
+orders:read:own
+  |     |    |
+  |     |    +-- alcance: own (solo recursos propios) | any (cualquier recurso)
+  |     +------- acción: create | read | update | delete
+  +------------- recurso: products | orders | users
+```
+
+### Matriz RBAC
+
+| Recurso / operación | ADMIN | SALES | USER |
+|---|:---:|:---:|:---:|
+| products:read:any | ✓ | ✓ | ✓ |
+| products:create:any | ✓ | × | × |
+| products:update:any | ✓ | × | × |
+| products:delete:any | ✓ | × | × |
+| orders:create:any | ✓ | ✓ | ✓ |
+| orders:read:own | ✓ | ✓ | ✓ |
+| orders:read:any | ✓ | ✓ | × |
+| orders:update:own | ✓ | ✓ | ✓ |
+| users:read:any | ✓ | × | × |
+
+### Endpoints protegidos
+
+### Ejemplo de permiso `own`
+
+`orders:read:own` permite consultar solo las órdenes del propio usuario. El middleware compara el dueño real de la orden  con el id del usuario(`req.user.id`). Si no coinciden, responde `403`. Los roles que además tienen `orders:read:any` pasan sin esa comparación.
+
+```javascript
+router.get('/:id', authorize('orders', 'read', 'own', orderOwnerId), ordersController.find);
+```
+
+### Ejemplo de permiso `any`
+
+`products:delete:any` permite eliminar cualquier producto. El rol `admin` lo tiene; `sales` y `user` no, por lo que reciben `403`.
+
+```javascript
+router.delete('/:id', authorize('products', 'delete', 'any'), productController.destroy);
+```
+
+### Cómo se obtienen los permisos desde la base de datos
+
+Los permisos no están escritos en el código. Al iniciar el servidor, `bin/www` llama a `loadAccessControl()` (`rbac/accessControl.js`), que:
+
+1. Consulta los roles con sus permisos (`Role -> role_permissions -> Permission`) usando Sequelize.
+2. Separa cada `Permission.key` en `resource`, `action` y `possession`.
+3. Construye los grants de la librería `accesscontrol` y los guarda en memoria.
+
+En cada petición, `authorize(resource, action, possession)` toma el rol del usuario autenticado (`req.user.role_id`), consulta esos grants y permite o deniega el acceso. Como los permisos se cargan al arrancar, si se modifican roles o permisos hay que reiniciar el servidor.
+
 ## Autor
 
 Isabela Jazmín Solís Castillo — 376827
