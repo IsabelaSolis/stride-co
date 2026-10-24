@@ -3,13 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-<<<<<<< Updated upstream
-=======
 const {expressjwt}=require('express-jwt');
 const i18n = require('./config/i18n');
-
-
->>>>>>> Stashed changes
 //importamos el modulo de rutas 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -21,6 +16,10 @@ var roleRouter = require('./routes/role');
 var rolePermissionRouter = require('./routes/rolePermission');
 var customerRouter = require('./routes/customer');
 var orderRouter = require('./routes/order');
+
+var authRouter = require('./routes/auth');
+const authenticate = require('./middlewares/authenticate');
+const secret = "4524ae5b264e28b9a409c98a3b4314a1";
 var app = express();
 
 // view engine setup
@@ -45,6 +44,10 @@ app.use('/api/v1/roles', roleRouter);
 app.use('/api/v1/rolePermissions', rolePermissionRouter);
 app.use('/api/v1/customers', customerRouter);
 app.use('/api/v1/orders', orderRouter);
+
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1', expressjwt({ secret, algorithms: ['HS256'] }));
+app.use('/api/v1', authenticate);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
