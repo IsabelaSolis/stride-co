@@ -9,6 +9,7 @@ var debug = require('debug')('stride-co:server');
 var http = require('http');
 const {sequelize} = require('../models/relationals');
 const connectMongo =require('../config/mongoose');
+const {loadAccessControl} = require('../rbac/accessControl');
 
 /**
 * Get port from environment and store in Express.
@@ -28,6 +29,9 @@ await sequelize.authenticate();
 //crear las tablas
 await sequelize.sync({alter: true});
 debug('Conexion a sql generada correctamente');
+
+await loadAccessControl();
+debug('Conexion de RBAC cargados desde la BD correctamente');
 
 await connectMongo();
 debug('Conexion a mongodb correcta');
