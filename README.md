@@ -157,6 +157,11 @@ El historial de commits sigue la especificación [Conventional Commits](https://
 Este entregable **no incluye** base de datos, autenticación, autorización, ni reglas de negocio. Estos puntos se incorporarán progresivamente en las siguientes etapas del proyecto.
 
 ## Control de acceso basado en roles
+   Para cargar los roles, permisos y usuarios de prueba: `node scripts/seedRbac.js`
+   user@stride.com 
+   contra: Password123
+
+
 ### Roles utilizados
 
 | Rol | Descripción |
