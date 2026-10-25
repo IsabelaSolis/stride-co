@@ -35,6 +35,12 @@ app.use(i18n.init);
 
 //conectamos cada router a un URL especifico
 app.use('/', indexRouter);
+
+// autenticacion: va ANTES de los routers protegidos
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1', expressjwt({ secret, algorithms: ['HS256'] }));
+app.use('/api/v1', authenticate);
+
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/variants', productVariantRouter);
@@ -45,9 +51,6 @@ app.use('/api/v1/rolePermissions', rolePermissionRouter);
 app.use('/api/v1/customers', customerRouter);
 app.use('/api/v1/orders', orderRouter);
 
-app.use('/api/v1/auth', authRouter);
-app.use('/api/v1', expressjwt({ secret, algorithms: ['HS256'] }));
-app.use('/api/v1', authenticate);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
