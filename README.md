@@ -205,6 +205,23 @@ orders:read:own
 | users:read:any | ✓ | × | × |
 
 ### Endpoints protegidos
+Los siguientes endpoints pasan por el middleware `authorize(resource, action, possession)` antes de llegar al controller. Si el usuario autenticado no tiene el permiso, la API responde `403 Forbidden`.
+
+| Metodo y ruta | Permiso requerido |
+|---|---|
+| `GET /api/v1/products` | `products:read:any` |
+| `GET /api/v1/products/:id` | `products:read:any` |
+| `POST /api/v1/products` | `products:create:any` |
+| `PUT /api/v1/products/:id` | `products:update:any` |
+| `DELETE /api/v1/products/:id` | `products:delete:any` |
+| `GET /api/v1/orders` | `orders:read:any` |
+| `GET /api/v1/orders/:id` | `orders:read:own` |
+| `POST /api/v1/orders` | `orders:create:any` |
+| `PUT /api/v1/orders/:id` | `orders:update:own` |
+| `GET /api/v1/users` | `users:read:any` |
+| `GET /api/v1/users/:id` | `users:read:any` |
+
+El resto de los endpoints requiere únicamente un usuario autenticado, el token JWT valido, sin verificación de permisos por rol.
 
 ### Ejemplo de permiso `own`
 
