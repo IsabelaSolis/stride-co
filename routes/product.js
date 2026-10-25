@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/product');
-//app llama a router y este a controller
+const authorize = require('../middlewares/authorize');
 
-/* GET users listing. */
-router.get('/', productController.list);
-//Get user by id
-router.get('/:id', productController.find);
-//POST create user
-router.post('/', productController.create);
-//PUT update by id
-router.put('/:id', productController.update);
-//delete by id 
-router.delete('/:id', productController.destroy);
+router.get('/', authorize('products', 'read', 'any'), productController.list);
+router.get('/:id', authorize('products', 'read', 'any'), productController.find);
+router.post('/', authorize('products', 'create', 'any'), productController.create);
+router.put('/:id', authorize('products', 'update', 'any'), productController.update);
+router.delete('/:id', authorize('products', 'delete', 'any'), productController.destroy);
 
 module.exports = router;

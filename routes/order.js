@@ -1,17 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const ordersController = require('../controllers/orders');
-//app llama a router y este a controller
+const authorize = require('../middlewares/authorize');
+const { orderOwnerId } = require('../middlewares/ownership');
 
-/* GET users listing. */
-router.get('/', ordersController.list);
-//Get user by id
-router.get('/:id', ordersController.find);
-//POST create user
-router.post('/', ordersController.create);
-//PUT update by id
-router.put('/:id', ordersController.update);
-//delete by id 
+router.get('/', authorize('orders', 'read', 'any'), ordersController.list);
+router.get('/:id', authorize('orders', 'read', 'own', orderOwnerId), ordersController.find);
+router.post('/', authorize('orders', 'create', 'any'), ordersController.create);
+router.put('/:id', authorize('orders', 'update', 'own', orderOwnerId), ordersController.update);
 router.delete('/:id', ordersController.destroy);
 
 module.exports = router;
