@@ -1,0 +1,11 @@
+{
+    "jwt": {
+        "secret": "CAMBIA_ESTO_por_un_secreto_largo_y_aleatorio"
+    },
+    "sql": {
+        "uri": "URI_DE_LA_BASE_RELACIONAL"
+    },
+    "mongo": {
+        "uri": "URI_DE_MONGODB_ATLAS"
+    }
+}

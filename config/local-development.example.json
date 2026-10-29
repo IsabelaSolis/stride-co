@@ -1,0 +1,8 @@
+{
+    "jwt": {
+        "secret": "secreto"
+    },
+    "sql": {
+        "password": "abcd1234"
+    }
+}

@@ -1,5 +1,6 @@
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
 // Datos equivalentes a las tablas roles / permissions / role_permissions / users
 jest.mock('../models/relationals', () => {
@@ -54,7 +55,7 @@ jest.mock('../models/documents', () => ({
 const app = require('../app');
 const { loadAccessControl, getAccessControl } = require('../rbac/accessControl');
 
-const SECRET = '4524ae5b264e28b9a409c98a3b4314a1';
+const SECRET = config.get('jwt.secret');
 const tokenOf = (userId) => `Bearer ${jwt.sign({ sub: String(userId) }, SECRET, { algorithm: 'HS256' })}`;
 const ADMIN = 1, SALES = 2, USER = 3;
 

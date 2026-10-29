@@ -1,9 +1,27 @@
 {
-    "mysql":{
+    "server": {
+        "port": 3000
+    },
+    "jwt": {
+        "expiresIn": "15m",
+        "issuer": "stride-co",
+        "audience": "stride-co-api",
+        "algorithm": "HS256"
+    },
+    "bcrypt": {
+        "saltRounds": 10
+    },
+    "sql": {
+        "dialect": "mysql",
         "host": "localhost",
         "port": 3306,
         "database": "stride_co",
-        "user": "root",
-        "password": "abcd1234"
+        "user": "root"
+    },
+    "mongo": {
+        "uri": "mongodb://localhost:27017/stride_co"
+    },
+    "e2e": {
+        "baseUrl": "http://localhost:3000"
     }
 }

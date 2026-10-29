@@ -29,7 +29,7 @@ const users = [
 
 async function seed() {
   await sequelize.authenticate();
-  await sequelize.sync({ alter: true });
+  await sequelize.sync();
 
   for (const p of permissions) {
     await Permission.findOrCreate({ where: { key: p.key }, defaults: p });

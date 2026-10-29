@@ -1,2 +1,6 @@
 node_modules
+.env
 
+# Secretos: no se suben (las plantillas *.example.json si)
+config/local*.json
+!config/local*.example.json

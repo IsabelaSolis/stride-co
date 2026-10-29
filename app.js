@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const {expressjwt}=require('express-jwt');
+const config = require('config');
 const i18n = require('./config/i18n');
 //importamos el modulo de rutas 
 var indexRouter = require('./routes/index');
@@ -19,7 +20,6 @@ var orderRouter = require('./routes/order');
 
 var authRouter = require('./routes/auth');
 const authenticate = require('./middlewares/authenticate');
-const secret = "4524ae5b264e28b9a409c98a3b4314a1";
 var app = express();
 
 // view engine setup
@@ -38,7 +38,7 @@ app.use('/', indexRouter);
 
 // autenticacion: va ANTES de los routers protegidos
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1', expressjwt({ secret, algorithms: ['HS256'] }));
+app.use('/api/v1', expressjwt({ secret: config.get('jwt.secret'), algorithms: [config.get('jwt.algorithm')] }));
 app.use('/api/v1', authenticate);
 
 app.use('/api/v1/users', usersRouter);
