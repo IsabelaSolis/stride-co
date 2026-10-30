@@ -23,9 +23,18 @@ jest.mock('../models/relationals', () => {
     3: { id: 3, role_id: 3, active: true }, // user
     4: { id: 4, role_id: 3, active: true }  // otro user
   };
+    const product = { id: 1, name: 'Producto de prueba', update: async () => product, destroy: async () => {} };
   return {
     sequelize: {},
     Permission: {},
+    Category: {},
+    ProductVariant: {},
+    Inventory: {},
+    Product: {
+      create: async (body) => ({ id: 1, ...body }),
+      findAll: async () => [product],
+      findByPk: async (id) => (Number(id) === 1 ? product : null)
+    },
     Role: {
       findAll: jest.fn(async () => roles),
       findByPk: jest.fn(async (id) => roles.find((r) => r.id === id) || null)

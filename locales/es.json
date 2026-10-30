@@ -1,5 +1,38 @@
 {
     "auth": {
-        "invalidCredentials": "Credenciales invalidas"
+        "invalidCredentials": "Credenciales inválidas"
+    },
+    "common": {
+        "invalidId": "Id inválido",
+        "validationError": "Error de validación",
+        "duplicated": "Ya existe un registro con ese valor",
+        "invalidReference": "El registro referenciado no existe",
+        "unauthorized": "No autorizado",
+        "notFound": "Recurso no encontrado",
+        "serverError": "Error interno del servidor"
+    },
+    "products": {
+        "list": "Productos obtenidos",
+        "found": "Producto obtenido",
+        "created": "Producto creado",
+        "updated": "Producto actualizado",
+        "deleted": "Producto eliminado",
+        "notFound": "Producto no encontrado"
+    },
+    "variants": {
+        "list": "Variantes obtenidas",
+        "found": "Variante obtenida",
+        "created": "Variante creada",
+        "updated": "Variante actualizada",
+        "deleted": "Variante eliminada",
+        "notFound": "Variante no encontrada"
+    },
+    "inventory": {
+        "list": "Registros de inventario obtenidos",
+        "found": "Registro de inventario obtenido",
+        "created": "Registro de inventario creado",
+        "updated": "Registro de inventario actualizado",
+        "deleted": "Registro de inventario eliminado",
+        "notFound": "Registro de inventario no encontrado"
     }
 }

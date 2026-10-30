@@ -1,5 +1,38 @@
 {
     "auth": {
-        "invalidCredentials": "Credencial invalid"
+        "invalidCredentials": "Invalid credentials"
+    },
+    "common": {
+        "invalidId": "Invalid id",
+        "validationError": "Validation error",
+        "duplicated": "A record with that value already exists",
+        "invalidReference": "The referenced record does not exist",
+        "unauthorized": "Unauthorized",
+        "notFound": "Resource not found",
+        "serverError": "Internal server error"
+    },
+    "products": {
+        "list": "Products retrieved",
+        "found": "Product retrieved",
+        "created": "Product created",
+        "updated": "Product updated",
+        "deleted": "Product deleted",
+        "notFound": "Product not found"
+    },
+    "variants": {
+        "list": "Variants retrieved",
+        "found": "Variant retrieved",
+        "created": "Variant created",
+        "updated": "Variant updated",
+        "deleted": "Variant deleted",
+        "notFound": "Variant not found"
+    },
+    "inventory": {
+        "list": "Inventory records retrieved",
+        "found": "Inventory record retrieved",
+        "created": "Inventory record created",
+        "updated": "Inventory record updated",
+        "deleted": "Inventory record deleted",
+        "notFound": "Inventory record not found"
     }
 }
