@@ -11,6 +11,10 @@ const options = {
     }
 };
 
+if (sqlConfig.ssl) {
+    options.dialectOptions = { ssl: { require: true, rejectUnauthorized: false } };
+}
+
 // En produccion la conexion llega como URI (secreto); en desarrollo, por campos.
 const sequelize = sqlConfig.uri
     ? new Sequelize(sqlConfig.uri, options)
