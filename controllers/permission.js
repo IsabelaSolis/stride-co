@@ -1,11 +1,12 @@
 const { Permission } = require('../models/relationals');
+const { parseId } = require('../utils/http');
 
 // create
 async function create(req, res, next) {
   try {
     const { key, description } = req.body;
     const permission = await Permission.create({ key, description });
-    res.status(201).json({ message: 'create permission', data: permission });
+    res.status(201).json({ message: req.__('permissions.created'), data: permission });
   } catch (err) {
     next(err);
   }
@@ -14,8 +15,8 @@ async function create(req, res, next) {
 // list
 async function list(req, res, next) {
   try {
-    const permissions = await Permission.findAll();
-    res.json({ message: 'list of permission', data: permissions });
+    const permissions = await Permission.findAll({ order: [['id', 'ASC']] });
+    res.json({ message: req.__('permissions.list'), data: permissions });
   } catch (err) {
     next(err);
   }
@@ -24,9 +25,12 @@ async function list(req, res, next) {
 // find by id
 async function find(req, res, next) {
   try {
-    const permission = await Permission.findByPk(req.params.id);
-    if (!permission) return res.status(404).json({ message: 'Permission not found' });
-    res.json({ message: 'find a permission by id', data: permission });
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const permission = await Permission.findByPk(id);
+    if (!permission) return res.status(404).json({ message: req.__('permissions.notFound') });
+    res.json({ message: req.__('permissions.found'), data: permission });
   } catch (err) {
     next(err);
   }
@@ -35,8 +39,11 @@ async function find(req, res, next) {
 // update
 async function update(req, res, next) {
   try {
-    const permission = await Permission.findByPk(req.params.id);
-    if (!permission) return res.status(404).json({ message: 'Permission not found' });
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const permission = await Permission.findByPk(id);
+    if (!permission) return res.status(404).json({ message: req.__('permissions.notFound') });
 
     const { key, description } = req.body;
     await permission.update({
@@ -44,7 +51,7 @@ async function update(req, res, next) {
       description: description ?? permission.description
     });
 
-    res.json({ message: 'update permission by id', data: permission });
+    res.json({ message: req.__('permissions.updated'), data: permission });
   } catch (err) {
     next(err);
   }
@@ -53,10 +60,13 @@ async function update(req, res, next) {
 // destroy
 async function destroy(req, res, next) {
   try {
-    const permission = await Permission.findByPk(req.params.id);
-    if (!permission) return res.status(404).json({ message: 'Permission not found' });
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const permission = await Permission.findByPk(id);
+    if (!permission) return res.status(404).json({ message: req.__('permissions.notFound') });
     await permission.destroy();
-    res.json({ message: 'delete permission by id', data: permission });
+    res.json({ message: req.__('permissions.deleted'), data: permission });
   } catch (err) {
     next(err);
   }

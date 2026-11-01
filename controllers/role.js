@@ -1,16 +1,23 @@
 const { Role, Permission } = require('../models/relationals');
+const { parseId } = require('../utils/http');
+
+const withPermissions = { model: Permission, as: 'permissions', through: { attributes: [] } };
+
+// permissionIds debe ser un arreglo de ids enteros positivos
+const validPermissionIds = (ids) => Array.isArray(ids) && ids.every((id) => parseId(id) !== null);
 
 // create
 async function create(req, res, next) {
   try {
     const { name, description, permissionIds } = req.body;
+    if (permissionIds !== undefined && !validPermissionIds(permissionIds)) {
+      return res.status(400).json({ message: req.__('common.validationError') });
+    }
     const role = await Role.create({ name, description });
     if (permissionIds) await role.setPermissions(permissionIds);
 
-    const created = await Role.findByPk(role.id, {
-      include: { model: Permission, as: 'permissions' }
-    });
-    res.status(201).json({ message: 'create role', data: created });
+    const created = await Role.findByPk(role.id, { include: withPermissions });
+    res.status(201).json({ message: req.__('roles.created'), data: created });
   } catch (err) {
     next(err);
   }
@@ -19,10 +26,8 @@ async function create(req, res, next) {
 // list
 async function list(req, res, next) {
   try {
-    const roles = await Role.findAll({
-      include: { model: Permission, as: 'permissions' }
-    });
-    res.json({ message: 'list of roles', data: roles });
+    const roles = await Role.findAll({ include: withPermissions, order: [['id', 'ASC']] });
+    res.json({ message: req.__('roles.list'), data: roles });
   } catch (err) {
     next(err);
   }
@@ -31,11 +36,12 @@ async function list(req, res, next) {
 // find by id
 async function find(req, res, next) {
   try {
-    const role = await Role.findByPk(req.params.id, {
-      include: { model: Permission, as: 'permissions' }
-    });
-    if (!role) return res.status(404).json({ message: 'Role not found' });
-    res.json({ message: 'find a role by id', data: role });
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const role = await Role.findByPk(id, { include: withPermissions });
+    if (!role) return res.status(404).json({ message: req.__('roles.notFound') });
+    res.json({ message: req.__('roles.found'), data: role });
   } catch (err) {
     next(err);
   }
@@ -44,20 +50,24 @@ async function find(req, res, next) {
 // update
 async function update(req, res, next) {
   try {
-    const role = await Role.findByPk(req.params.id);
-    if (!role) return res.status(404).json({ message: 'Role not found' });
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const role = await Role.findByPk(id);
+    if (!role) return res.status(404).json({ message: req.__('roles.notFound') });
 
     const { name, description, permissionIds } = req.body;
+    if (permissionIds !== undefined && !validPermissionIds(permissionIds)) {
+      return res.status(400).json({ message: req.__('common.validationError') });
+    }
     await role.update({
       name: name ?? role.name,
       description: description ?? role.description
     });
     if (permissionIds) await role.setPermissions(permissionIds);
 
-    const updated = await Role.findByPk(role.id, {
-      include: { model: Permission, as: 'permissions' }
-    });
-    res.json({ message: 'update role by id', data: updated });
+    const updated = await Role.findByPk(role.id, { include: withPermissions });
+    res.json({ message: req.__('roles.updated'), data: updated });
   } catch (err) {
     next(err);
   }
@@ -66,10 +76,13 @@ async function update(req, res, next) {
 // destroy
 async function destroy(req, res, next) {
   try {
-    const role = await Role.findByPk(req.params.id);
-    if (!role) return res.status(404).json({ message: 'Role not found' });
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const role = await Role.findByPk(id);
+    if (!role) return res.status(404).json({ message: req.__('roles.notFound') });
     await role.destroy();
-    res.json({ message: 'delete role by id', data: role });
+    res.json({ message: req.__('roles.deleted'), data: role });
   } catch (err) {
     next(err);
   }

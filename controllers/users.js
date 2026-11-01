@@ -1,12 +1,19 @@
 const { User, Role } = require('../models/relationals');
 const { hashPassword } = require('../utils/password');
+const { parseId } = require('../utils/http');
 
+const MIN_PASSWORD_LENGTH = 8;
+const validPassword = (password) => typeof password === 'string' && password.length >= MIN_PASSWORD_LENGTH;
 
 // list
 async function list(req, res, next) {
   try {
-    const users = await User.findAll({ attributes: ['first_name', 'last_name', 'email'], include: { model: Role, as: 'role' } });
-    res.json({ message: 'GET users', data: users });
+    const users = await User.findAll({
+      attributes: ['id', 'first_name', 'last_name', 'email', 'active', 'role_id'],
+      include: { model: Role, as: 'role' },
+      order: [['id', 'ASC']]
+    });
+    res.json({ message: req.__('users.list'), data: users });
   } catch (err) {
     next(err);
   }
@@ -15,11 +22,14 @@ async function list(req, res, next) {
 // find
 async function find(req, res, next) {
   try {
-    const user = await User.findByPk(req.params.id, {
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const user = await User.findByPk(id, {
       include: { model: Role, as: 'role' }
     });
-    if (!user) return res.status(404).json({ message: 'User not found' });
-    res.json({ message: 'GET user by id', data: user });
+    if (!user) return res.status(404).json({ message: req.__('users.notFound') });
+    res.json({ message: req.__('users.found'), data: user });
   } catch (err) {
     next(err);
   }
@@ -28,11 +38,10 @@ async function find(req, res, next) {
 // create
 async function create(req, res, next) {
   try {
-    const name = req.body.name;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
-    const roleId = req.body.roleId;
-    const password = req.body.password;
+    const { name, lastName, email, roleId, password } = req.body;
+    if (!validPassword(password)) {
+      return res.status(400).json({ message: req.__('users.invalidPassword') });
+    }
     const passwordData = await hashPassword(password);
     const user = await User.create({
       first_name: name,
@@ -42,7 +51,7 @@ async function create(req, res, next) {
       password: passwordData.securePassword,
       salt_key: passwordData.saltKey
     });
-    res.status(201).json({ message: 'User created', data: user });
+    res.status(201).json({ message: req.__('users.created'), data: user });
   } catch (err) {
     next(err);
   }
@@ -51,8 +60,11 @@ async function create(req, res, next) {
 // update
 async function update(req, res, next) {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ message: req.__('users.notFound') });
 
     const { first_name, last_name, email, active, roleId, password, passwordConfirmation } = req.body;
     const changes = {
@@ -66,12 +78,13 @@ async function update(req, res, next) {
     // Solo si quiere cambiar la contraseña
     if (password !== undefined || passwordConfirmation !== undefined) {
       if (!password || !passwordConfirmation) {
-        return res.status(400).json({
-          message: 'Password and passwordConfirmation are both required'
-        });
+        return res.status(400).json({ message: req.__('users.passwordConfirmationRequired') });
       }
       if (password !== passwordConfirmation) {
-        return res.status(400).json({ message: 'Passwords do not match' });
+        return res.status(400).json({ message: req.__('users.passwordsDoNotMatch') });
+      }
+      if (!validPassword(password)) {
+        return res.status(400).json({ message: req.__('users.invalidPassword') });
       }
 
       const passwordData = await hashPassword(password);
@@ -81,7 +94,7 @@ async function update(req, res, next) {
 
     await user.update(changes);
 
-    res.json({ message: 'User updated', data: user });
+    res.json({ message: req.__('users.updated'), data: user });
   } catch (err) {
     next(err);
   }
@@ -90,10 +103,13 @@ async function update(req, res, next) {
 // destroy
 async function destroy(req, res, next) {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ message: req.__('common.invalidId') });
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ message: req.__('users.notFound') });
     await user.destroy();
-    res.json({ message: 'User deleted', data: user });
+    res.json({ message: req.__('users.deleted'), data: user });
   } catch (err) {
     next(err);
   }

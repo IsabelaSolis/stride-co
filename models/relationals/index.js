@@ -6,8 +6,8 @@ const Product = require('./Product');
 const ProductVariant = require('./ProductVariant');
 const Inventory = require('./Inventory');
 //Users -> Roles
-User.belongsTo(Role, {foreignKey: 'role_id', as:'role' });
-Role.hasMany(User, {foreignKey:'role_id', as:'users'});
+User.belongsTo(Role, {foreignKey: { name: 'role_id', allowNull: false }, as:'role' });
+Role.hasMany(User, {foreignKey: { name: 'role_id', allowNull: false }, as:'users'});
 //Role <--> permission
 Role.belongsToMany(Permission, {
     through: 'role_permissions', //cual tabla hace la relacion, el nombre de la tabla intermedia
