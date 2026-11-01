@@ -9,7 +9,8 @@
         "invalidReference": "The referenced record does not exist",
         "unauthorized": "Unauthorized",
         "notFound": "Resource not found",
-        "serverError": "Internal server error"
+        "serverError": "Internal server error",
+        "inUse": "The record is in use by other records"
     },
     "products": {
         "list": "Products retrieved",
@@ -34,5 +35,55 @@
         "updated": "Inventory record updated",
         "deleted": "Inventory record deleted",
         "notFound": "Inventory record not found"
+    },
+    "users": {
+        "list": "Users retrieved",
+        "found": "User retrieved",
+        "created": "User created",
+        "updated": "User updated",
+        "deleted": "User deleted",
+        "notFound": "User not found",
+        "invalidPassword": "Password must be at least 8 characters",
+        "passwordConfirmationRequired": "Password and passwordConfirmation are both required",
+        "passwordsDoNotMatch": "Passwords do not match"
+    },
+    "roles": {
+        "list": "Roles retrieved",
+        "found": "Role retrieved",
+        "created": "Role created",
+        "updated": "Role updated",
+        "deleted": "Role deleted",
+        "notFound": "Role not found"
+    },
+    "permissions": {
+        "list": "Permissions retrieved",
+        "found": "Permission retrieved",
+        "created": "Permission created",
+        "updated": "Permission updated",
+        "deleted": "Permission deleted",
+        "notFound": "Permission not found"
+    },
+    "customers": {
+        "list": "Customers retrieved",
+        "found": "Customer retrieved",
+        "created": "Customer created",
+        "updated": "Customer updated",
+        "deleted": "Customer deleted",
+        "notFound": "Customer not found"
+    },
+    "orders": {
+        "list": "Orders retrieved",
+        "found": "Order retrieved",
+        "created": "Order created",
+        "updated": "Order updated",
+        "deleted": "Order deleted",
+        "notFound": "Order not found"
+    },
+    "rolePermissions": {
+        "list": "Role permissions retrieved",
+        "found": "Permissions of the role retrieved",
+        "created": "Permission assigned to the role",
+        "deleted": "Permission removed from the role",
+        "notFound": "The role does not have that permission"
     }
 }

@@ -15,7 +15,20 @@ function errorHandler(err, req, res, next) {
     data = err.errors.map((e) => ({ field: e.path, message: e.message }));
   } else if (err.name === 'SequelizeForeignKeyConstraintError') {
     status = 400;
-    message = t('common.invalidReference');
+    // al borrar, el registro esta siendo usado por otros; al crear/editar, la referencia no existe
+    message = req.method === 'DELETE' ? t('common.inUse') : t('common.invalidReference');
+  } else if (err.name === 'ValidationError' && err.errors) {
+    status = 400; // Mongoose
+    message = t('common.validationError');
+    data = Object.values(err.errors).map((e) => ({ field: e.path, message: e.message }));
+  } else if (err.name === 'CastError') {
+    status = 400; // Mongoose: id o tipo mal formado
+    message = t('common.validationError');
+    data = [{ field: err.path, message: err.message }];
+  } else if (err.code === 11000) {
+    status = 400; // Mongo: valor unico repetido
+    message = t('common.duplicated');
+    data = Object.keys(err.keyValue || {}).map((field) => ({ field, message: 'must be unique' }));
   } else if (err.name === 'SequelizeDatabaseError' && err.parent && ['22P02', '22003'].includes(err.parent.code)) {
     status = 400; // texto donde va un numero, numero fuera de rango
     message = t('common.validationError');

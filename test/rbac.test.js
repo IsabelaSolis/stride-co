@@ -45,22 +45,30 @@ jest.mock('../models/relationals', () => {
     }
   };
 });
-
 const ORDER_USER3 = 'aaaaaaaaaaaaaaaaaaaaaaaa'; // orden del usuario 3
 const ORDER_USER4 = 'bbbbbbbbbbbbbbbbbbbbbbbb'; // orden del usuario 4
-jest.mock('../models/documents', () => ({
-  Customer: {},
-  Order: {
-    findById: jest.fn(async (id) => ({
-      aaaaaaaaaaaaaaaaaaaaaaaa: { _id: id, salesPersonId: 3 },
-      bbbbbbbbbbbbbbbbbbbbbbbb: { _id: id, salesPersonId: 4 }
-    }[id] || null)),
-    find: jest.fn(() => ({ populate: async () => [] })),
-    create: jest.fn(async (b) => b),
-    findByIdAndUpdate: jest.fn(async (id, b) => ({ _id: id, ...b }))
-  }
-}));
-
+jest.mock('../models/documents', () => {
+  // las consultas de Mongoose se pueden esperar (await) y encadenar con populate()
+  const query = (value) => {
+    const q = Promise.resolve(value);
+    q.populate = () => q;
+    return q;
+  };
+  const order = (id, salesPersonId) => ({ _id: id, salesPersonId, statusHistory: [], set() {}, save: async () => {} });
+  const orders = {
+    aaaaaaaaaaaaaaaaaaaaaaaa: order('aaaaaaaaaaaaaaaaaaaaaaaa', 3),
+    bbbbbbbbbbbbbbbbbbbbbbbb: order('bbbbbbbbbbbbbbbbbbbbbbbb', 4)
+  };
+  return {
+    Customer: { exists: async () => true },
+    Order: {
+      findById: jest.fn((id) => query(orders[id] || null)),
+      find: jest.fn(() => query([])),
+      create: jest.fn(async (body) => ({ _id: 'aaaaaaaaaaaaaaaaaaaaaaaa', ...body })),
+      findByIdAndDelete: jest.fn(async () => null)
+    }
+  };
+});
 const app = require('../app');
 const { loadAccessControl, getAccessControl } = require('../rbac/accessControl');
 

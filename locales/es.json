@@ -9,7 +9,8 @@
         "invalidReference": "El registro referenciado no existe",
         "unauthorized": "No autorizado",
         "notFound": "Recurso no encontrado",
-        "serverError": "Error interno del servidor"
+        "serverError": "Error interno del servidor",
+        "inUse": "El registro está siendo usado por otros registros"
     },
     "products": {
         "list": "Productos obtenidos",
@@ -34,5 +35,55 @@
         "updated": "Registro de inventario actualizado",
         "deleted": "Registro de inventario eliminado",
         "notFound": "Registro de inventario no encontrado"
+    },
+    "users": {
+        "list": "Usuarios obtenidos",
+        "found": "Usuario obtenido",
+        "created": "Usuario creado",
+        "updated": "Usuario actualizado",
+        "deleted": "Usuario eliminado",
+        "notFound": "Usuario no encontrado",
+        "invalidPassword": "La contraseña debe tener al menos 8 caracteres",
+        "passwordConfirmationRequired": "Se requieren password y passwordConfirmation",
+        "passwordsDoNotMatch": "Las contraseñas no coinciden"
+    },
+    "roles": {
+        "list": "Roles obtenidos",
+        "found": "Rol obtenido",
+        "created": "Rol creado",
+        "updated": "Rol actualizado",
+        "deleted": "Rol eliminado",
+        "notFound": "Rol no encontrado"
+    },
+    "permissions": {
+        "list": "Permisos obtenidos",
+        "found": "Permiso obtenido",
+        "created": "Permiso creado",
+        "updated": "Permiso actualizado",
+        "deleted": "Permiso eliminado",
+        "notFound": "Permiso no encontrado"
+    },
+    "customers": {
+        "list": "Clientes obtenidos",
+        "found": "Cliente obtenido",
+        "created": "Cliente creado",
+        "updated": "Cliente actualizado",
+        "deleted": "Cliente eliminado",
+        "notFound": "Cliente no encontrado"
+    },
+    "orders": {
+        "list": "Órdenes obtenidas",
+        "found": "Orden obtenida",
+        "created": "Orden creada",
+        "updated": "Orden actualizada",
+        "deleted": "Orden eliminada",
+        "notFound": "Orden no encontrada"
+    },
+    "rolePermissions": {
+        "list": "Permisos de roles obtenidos",
+        "found": "Permisos del rol obtenidos",
+        "created": "Permiso asignado al rol",
+        "deleted": "Permiso quitado del rol",
+        "notFound": "El rol no tiene ese permiso"
     }
 }
