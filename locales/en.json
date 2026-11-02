@@ -1,6 +1,8 @@
 {
     "auth": {
-        "invalidCredentials": "Invalid credentials"
+    "invalidCredentials": "Invalid credentials",
+    "me": "Authenticated user retrieved",
+    "loginSuccess": "Login successful"
     },
     "common": {
         "invalidId": "Invalid id",
@@ -8,6 +10,7 @@
         "duplicated": "A record with that value already exists",
         "invalidReference": "The referenced record does not exist",
         "unauthorized": "Unauthorized",
+        "forbidden": "You do not have permission to perform this action",
         "notFound": "Resource not found",
         "serverError": "Internal server error",
         "inUse": "The record is in use by other records"

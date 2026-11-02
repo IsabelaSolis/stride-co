@@ -1,6 +1,8 @@
 {
     "auth": {
-        "invalidCredentials": "Credenciales inválidas"
+    "invalidCredentials": "Credenciales inválidas",
+    "me": "Usuario autenticado obtenido",
+    "loginSuccess": "Inicio de sesión exitoso"
     },
     "common": {
         "invalidId": "Id inválido",
@@ -8,6 +10,7 @@
         "duplicated": "Ya existe un registro con ese valor",
         "invalidReference": "El registro referenciado no existe",
         "unauthorized": "No autorizado",
+        "forbidden": "No tienes permiso para realizar esta acción",
         "notFound": "Recurso no encontrado",
         "serverError": "Error interno del servidor",
         "inUse": "El registro está siendo usado por otros registros"

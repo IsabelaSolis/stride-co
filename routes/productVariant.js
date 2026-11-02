@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const productVariantController = require('../controllers/productVariant');
-//app llama a router y este a controller
+const authorize = require('../middlewares/authorize');
 
-/* GET users listing. */
-router.get('/', productVariantController.list);
-//Get user by id
-router.get('/:id', productVariantController.find);
-//POST create user
-router.post('/', productVariantController.create);
-//PUT update by id
-router.put('/:id', productVariantController.update);
-//delete by id 
-router.delete('/:id', productVariantController.destroy);
+router.get('/', authorize('variants', 'read', 'any'), productVariantController.list);
+router.get('/:id', authorize('variants', 'read', 'any'), productVariantController.find);
+router.post('/', authorize('variants', 'create', 'any'), productVariantController.create);
+router.put('/:id', authorize('variants', 'update', 'any'), productVariantController.update);
+router.delete('/:id', authorize('variants', 'delete', 'any'), productVariantController.destroy);
 
 module.exports = router;

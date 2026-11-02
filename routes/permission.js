@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const permissionController = require('../controllers/permission');
-//app llama a router y este a controller
+const authorize = require('../middlewares/authorize');
 
-/* GET users listing. */
-router.get('/', permissionController.list);
-//Get user by id
-router.get('/:id', permissionController.find);
-//POST create user
-router.post('/', permissionController.create);
-//PUT update by id
-router.put('/:id', permissionController.update);
-//delete by id 
-router.delete('/:id', permissionController.destroy);
+router.get('/', authorize('permissions', 'read', 'any'), permissionController.list);
+router.get('/:id', authorize('permissions', 'read', 'any'), permissionController.find);
+router.post('/', authorize('permissions', 'create', 'any'), permissionController.create);
+router.put('/:id', authorize('permissions', 'update', 'any'), permissionController.update);
+router.delete('/:id', authorize('permissions', 'delete', 'any'), permissionController.destroy);
 
 module.exports = router;

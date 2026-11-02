@@ -1,4 +1,4 @@
-const { User } = require('../models/relationals');
+const { User, Role } = require('../models/relationals');
 const { verifyPassword } = require('../utils/password');
 const jwt=require('jsonwebtoken');
 const config = require('config');
@@ -19,17 +19,21 @@ function signToken(user){//recibe un usuario para poder ingresar los datos que n
 async function login(req, res, next) {
   try {
     const { email, password } = req.body;
+    if (typeof email !== 'string' || typeof password !== 'string' || !email || !password) {
+      return res.status(400).json({ message: req.__('common.validationError') });
+    }
+
     const user = await User.findOne({ where: { email } });
-    if (!user || !user.active) return res.status(401).json({message: req.__('auth.invalidCredentials')});
+    if (!user || !user.active) return res.status(401).json({ message: req.__('auth.invalidCredentials') });
 
     const valid = await verifyPassword(password, user.password);
-    if (!valid) return res.status(401).json({message: req.__('auth.invalidCredentials')});
+    if (!valid) return res.status(401).json({ message: req.__('auth.invalidCredentials') });
 
     res.json({
-      message: "Login successful",
+      message: req.__('auth.loginSuccess'),
       data: {
         token: signToken(user),
-        toke_type:"Bearer",
+        token_type: 'Bearer',
         expires_in: config.get('jwt.expiresIn')
       }
     });
@@ -37,4 +41,12 @@ async function login(req, res, next) {
     next(err);
   }
 }
-module.exports = { login };
+async function me(req, res, next) {
+  try {
+    const user = await User.findByPk(req.user.id, { include: [{ model: Role, as: 'role' }] });
+    res.json({ message: req.__('auth.me'), data: user });
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports = { login, me };
