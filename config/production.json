@@ -1,5 +1,6 @@
 {
     "sql": {
-        "database": "stride_co_prod"
+        "database": "stride_co_prod",
+        "ssl": true
     }
 }
