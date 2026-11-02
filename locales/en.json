@@ -1,6 +1,8 @@
 {
     "auth": {
-        "invalidCredentials": "Invalid credentials"
+    "invalidCredentials": "Invalid credentials",
+    "me": "Authenticated user retrieved",
+    "loginSuccess": "Login successful"
     },
     "common": {
         "invalidId": "Invalid id",

@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const inventoryController = require('../controllers/inventory');
-//app llama a router y este a controller
+const authorize = require('../middlewares/authorize');
 
-/* GET users listing. */
-router.get('/', inventoryController.list);
-//Get user by id
-router.get('/:id', inventoryController.find);
-//POST create user
-router.post('/', inventoryController.create);
-//PUT update by id
-router.put('/:id', inventoryController.update);
-//delete by id 
-router.delete('/:id', inventoryController.destroy);
+router.get('/', authorize('inventory', 'read', 'any'), inventoryController.list);
+router.get('/:id', authorize('inventory', 'read', 'any'), inventoryController.find);
+router.post('/', authorize('inventory', 'create', 'any'), inventoryController.create);
+router.put('/:id', authorize('inventory', 'update', 'any'), inventoryController.update);
+router.delete('/:id', authorize('inventory', 'delete', 'any'), inventoryController.destroy);
 
 module.exports = router;
