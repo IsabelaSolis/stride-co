@@ -1,4 +1,7 @@
 {
+    "index": {
+    "welcome": "Bienvenido a %s"
+    },
     "auth": {
     "invalidCredentials": "Credenciales inválidas",
     "me": "Usuario autenticado obtenido",

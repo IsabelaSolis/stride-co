@@ -4,7 +4,7 @@ const controller = require('../controllers/index');
 
 /* GET home page. */
 router.get('/',(req, res, next) =>{
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Stride & Co.' });
 });
 
 router.get('/health', controller.healthCheck);
