@@ -1,9 +1,8 @@
-const { Product, Category, ProductVariant, Inventory } = require('../models/relationals');
+const { Product, ProductVariant, Inventory } = require('../models/relationals');
 const { parseId, pick } = require('../utils/http');
 
 const FIELDS = ['name', 'description', 'brand', 'price', 'active', 'category_id'];
 const relations = [
-  { model: Category, as: 'category' },
   { model: ProductVariant, as: 'variants', include: [{ model: Inventory, as: 'inventory' }] }
 ];
 
