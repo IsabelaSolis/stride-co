@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const customersController = require('../controllers/customers');
+const customersController = require('../../controllers/customers');
 //app llama a router y este a controller
 
 /* GET users listing. */

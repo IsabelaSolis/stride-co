@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const productVariantController = require('../controllers/productVariant');
+const productVariantController = require('../../controllers/productVariant');
 //app llama a router y este a controller
 
 /* GET users listing. */

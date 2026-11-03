@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const roleController = require('../controllers/role');
+const roleController = require('../../controllers/role');
 //app llama a router y este a controller
 
 /* GET users listing. */

@@ -18,7 +18,8 @@
         "created": "Product created",
         "updated": "Product updated",
         "deleted": "Product deleted",
-        "notFound": "Product not found"
+        "notFound": "Product not found",
+        "name": "name"
     },
     "variants": {
         "list": "Variants retrieved",

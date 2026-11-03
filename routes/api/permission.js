@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const permissionController = require('../controllers/permission');
+const permissionController = require('../../controllers/permission');
 //app llama a router y este a controller
 
 /* GET users listing. */

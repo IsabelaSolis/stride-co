@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const rolePermissionController = require('../controllers/rolePermission');
+const rolePermissionController = require('../../controllers/rolePermission');
 //app llama a router y este a controller
 //aqui no vamos a detern update, porque no tiene sentido por que ambas columnas
 //son PK
