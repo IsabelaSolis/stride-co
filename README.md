@@ -139,7 +139,6 @@ stride-co/
 |-- app.js
 |-- package.json
 |-- eslint.config.js
-|-- .gitignore
 `-- README.md
 ```
 
@@ -175,7 +174,6 @@ Este entregable **no incluye** base de datos, autenticación, autorización, ni 
 | Key | Descripción |
 |---|---|
 | `products:read:any` | Consultar cualquier producto |
-| `products:create:any` | Crear productos |
 | `products:update:any` | Actualizar cualquier producto |
 | `products:delete:any` | Eliminar cualquier producto |
 | `orders:create:any` | Crear órdenes |
