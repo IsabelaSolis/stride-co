@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const inventoryController = require('../controllers/inventory');
-const authorize = require('../middlewares/authorize');
+const inventoryController = require('../../controllers/inventory');
+const authorize = require('../../middlewares/authorize');
 
 router.get('/', authorize('inventory', 'read', 'any'), inventoryController.list);
 router.get('/:id', authorize('inventory', 'read', 'any'), inventoryController.find);

@@ -17,16 +17,6 @@ var roleRouter = require('./routes/api/role');
 var rolePermissionRouter = require('./routes/api/rolePermission');
 var customerRouter = require('./routes/api/customer');
 var orderRouter = require('./routes/api/order');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var productRouter = require('./routes/product');
-var productVariantRouter = require('./routes/productVariant');
-var inventoryRouter = require('./routes/inventory');
-var permissionRouter = require('./routes/permission');
-var roleRouter = require('./routes/role');
-var rolePermissionRouter = require('./routes/rolePermission');
-var customerRouter = require('./routes/customer');
-var orderRouter = require('./routes/order');
 const setLanguage = require('./middlewares/language');
 
 var authRouter = require('./routes/api/auth');

@@ -3,8 +3,8 @@ const { expressjwt } = require('express-jwt');
 const config = require('config');
 const router = express.Router();
 
-const controller = require('../controllers/auth');
-const authenticate = require('../middlewares/authenticate');
+const controller = require('../../controllers/auth');
+const authenticate = require('../../middlewares/authenticate');
 
 const jwtCheck = expressjwt({
   secret: config.get('jwt.secret'),
