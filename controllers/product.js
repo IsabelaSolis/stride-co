@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const { Product,ProductVariant, Inventory } = require('../models/relationals');
+=======
+const { Product, ProductVariant, Inventory } = require('../models/relationals');
+>>>>>>> origin/staging
 const { parseId, pick } = require('../utils/http');
 
 const FIELDS = ['name', 'description', 'brand', 'price', 'active', 'category_id'];

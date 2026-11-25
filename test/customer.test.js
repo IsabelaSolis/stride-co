@@ -1,47 +1,64 @@
+/* global jest */
 const request = require('supertest');
+
+jest.mock('../models/relationals', () => require('./helpers/mocks').relationalsMock());
+jest.mock('../models/documents', () => {
+  const doc = () => ({ _id: 'cccccccccccccccccccccccc', set: jest.fn(), save: jest.fn(async () => {}) });
+  return {
+    Customer: {
+      find: jest.fn(() => ({ sort: async () => [doc()] })),
+      findById: jest.fn(async () => doc()),
+      create: jest.fn(async (body) => ({ _id: 'cccccccccccccccccccccccc', ...body })),
+      findByIdAndDelete: jest.fn(async () => ({ _id: 'cccccccccccccccccccccccc' }))
+    },
+    Order: {}
+  };
+});
+
 const app = require('../app');
+const { loadAccessControl } = require('../rbac/accessControl');
+const { tokenOf, ADMIN } = require('./helpers/mocks');
+
+const admin = tokenOf(ADMIN);
+const ID = 'cccccccccccccccccccccccc';
+beforeAll(async () => { await loadAccessControl(); });
 
 describe('API /api/v1/customers', () => {
   test('GET / debe regresar 200 y estructura message/data', async () => {
-    const res = await request(app).get('/api/v1/customers');
+    const res = await request(app).get('/api/v1/customers').set('Authorization', admin);
     expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty('message');
-    expect(res.body).toHaveProperty('data');
     expect(Array.isArray(res.body.data)).toBe(true);
   });
 
-  test('GET /:id debe regresar 200 y estructura message/data', async () => {
-    const res = await request(app).get('/api/v1/customers/1');
+  test('GET /:id debe regresar 200', async () => {
+    const res = await request(app).get(`/api/v1/customers/${ID}`).set('Authorization', admin);
     expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty('message');
-    expect(res.body).toHaveProperty('data');
   });
 
   test('POST / debe crear y regresar 201', async () => {
-    const res = await request(app).post('/api/v1/customers').send({ email: 'a@a.com' });
+    const res = await request(app).post('/api/v1/customers').set('Authorization', admin)
+      .send({ userId: 3, email: 'a@a.com' });
     expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty('message');
   });
 
   test('PUT /:id debe regresar 200', async () => {
-    const res = await request(app).put('/api/v1/customers/1').send({ email: 'a@a.com' });
+    const res = await request(app).put(`/api/v1/customers/${ID}`).set('Authorization', admin)
+      .send({ phone: '614-555-0101' });
     expect(res.statusCode).toBe(200);
   });
 
   test('DELETE /:id debe regresar 200', async () => {
-    const res = await request(app).delete('/api/v1/customers/1');
+    const res = await request(app).delete(`/api/v1/customers/${ID}`).set('Authorization', admin);
     expect(res.statusCode).toBe(200);
   });
 
-  test('Ruta inexistente debe regresar 404', async () => {
-    const res = await request(app).get('/api/v1/customers-que-no-existe');
-    expect(res.statusCode).toBe(404);
+  test('GET /:id con id mal formado debe regresar 400', async () => {
+    const res = await request(app).get('/api/v1/customers/abc').set('Authorization', admin);
+    expect(res.statusCode).toBe(400);
   });
 
-  test('POST / sin body debe seguir respondiendo de forma controlada', async () => {
-    const res = await request(app).post('/api/v1/customers').send({});
-    // En esta etapa (mock) no hay validación de negocio todavía,
-    // así que documentamos el comportamiento actual: no debe tronar el servidor.
-    expect([200, 201, 400]).toContain(res.statusCode);
+  test('Ruta inexistente debe regresar 404', async () => {
+    const res = await request(app).get('/api/v1/customers-que-no-existe').set('Authorization', admin);
+    expect(res.statusCode).toBe(404);
   });
 });

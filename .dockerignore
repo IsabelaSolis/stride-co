@@ -3,3 +3,6 @@ npm-debug.log
 .git
 .gitignore
 .env
+# los secrets no entran en la imagen las plantillas *.example.json si
+config/local*.json
+!config/local*.example.json

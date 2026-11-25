@@ -10,10 +10,10 @@ function can(ac, roleName, resource, action, possession) {
 function authorize(resource, action, possession = 'any', getOwnerId) {
   return async function authorizeMiddleware(req, res, next) {
     try {
-      if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+      if (!req.user) return res.status(401).json({ message: req.__('common.unauthorized')  });
 
       const role = await Role.findByPk(req.user.role_id);
-      if (!role) return res.status(403).json({ message: 'Forbidden' });
+      if (!role) return res.status(403).json({ message: req.__('common.forbidden') });
 
       const ac = getAccessControl();
       if (can(ac, role.name, resource, action, 'any')) return next();
@@ -25,7 +25,7 @@ function authorize(resource, action, possession = 'any', getOwnerId) {
         }
       }
 
-      return res.status(403).json({ message: 'Forbidden' });
+      return res.status(403).json({ message: req.__('common.forbidden') });
     } catch (err) {
       next(err);
     }
