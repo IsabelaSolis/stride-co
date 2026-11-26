@@ -1,0 +1,33 @@
+extends base
+
+block body
+  aside.admin-sidebar
+    a.brand.text-white.px-3.mb-3.d-block.text-decoration-none(href='/admin')
+      | STRIDE
+      span -CO
+    .sidebar-label.text-uppercase.tiny.px-3.mb-3= __('admin.panel')
+    nav.nav.flex-column
+      each item in adminMenu
+        a.nav-link(href=item.href, class=isActive(item.href) ? 'active' : '')
+          i.bi.me-2(class=item.icon)
+          = __(item.label)
+    .mt-4.px-2
+      a.btn.btn-outline-light.w-100.btn-sm(href='/')
+        i.bi.bi-shop.me-1
+        = __('admin.viewStore')
+  main.admin-main
+    .admin-top
+      div
+        .tiny= __('admin.breadcrumb')
+        h2.fw-bold.mb-0= title
+      .d-flex.align-items-center.gap-2
+        .btn-group.btn-group-sm(role='group', aria-label=__('layout.language'))
+          a.btn.btn-outline-secondary(href=langUrl('es'), class=lang === 'es' ? 'active' : '') ES
+          a.btn.btn-outline-secondary(href=langUrl('en'), class=lang === 'en' ? 'active' : '') EN
+        if currentUser
+          span.pill
+            i.bi.bi-person-circle.me-1
+            = currentUser.email
+          form(method='post', action='/logout')
+            button.btn.btn-outline-secondary.btn-sm(type='submit')= __('layout.logout')
+    block content

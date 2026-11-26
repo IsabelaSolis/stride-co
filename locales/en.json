@@ -1,11 +1,11 @@
 {
     "index": {
-    "welcome": "Welcome to %s"
+        "welcome": "Welcome to %s"
     },
     "auth": {
-    "invalidCredentials": "Invalid credentials",
-    "me": "Authenticated user retrieved",
-    "loginSuccess": "Login successful"
+        "invalidCredentials": "Invalid credentials",
+        "me": "Authenticated user retrieved",
+        "loginSuccess": "Login successful"
     },
     "common": {
         "invalidId": "Invalid id",
@@ -24,7 +24,8 @@
         "created": "Product created",
         "updated": "Product updated",
         "deleted": "Product deleted",
-        "notFound": "Product not found"
+        "notFound": "Product not found",
+        "name": "name"
     },
     "variants": {
         "list": "Variants retrieved",
@@ -91,5 +92,52 @@
         "created": "Permission assigned to the role",
         "deleted": "Permission removed from the role",
         "notFound": "The role does not have that permission"
+    },
+    "layout": {
+        "defaultDescription": "Stride-Co: urban, sport and essential sneakers to move at your own pace.",
+        "tagline": "MOVE YOUR WAY",
+        "language": "Language",
+        "login": "Admin",
+        "logout": "Sign out",
+        "nav": {
+            "home": "Home",
+            "products": "Products",
+            "orders": "My orders",
+            "cart": "Bag"
+        },
+        "footer": {
+            "links": "Catalog · Orders · Support",
+            "rights": "© 2026 Stride-Co. All rights reserved."
+        }
+    },
+    "admin": {
+        "panel": "Admin panel",
+        "breadcrumb": "Stride-Co / Administration",
+        "viewStore": "View store",
+        "nav": {
+            "dashboard": "Dashboard",
+            "products": "Products",
+            "variants": "Variants",
+            "inventory": "Inventory",
+            "orders": "Orders",
+            "customers": "Customers",
+            "users": "Users",
+            "roles": "Roles and permissions"
+        }
+    },
+    "errors": {
+        "backHome": "Back to home",
+        "forbidden": {
+            "title": "Access denied",
+            "text": "Your account does not have permission to view this page."
+        },
+        "notFound": {
+            "title": "Page not found",
+            "text": "Check the address or go back to the home page."
+        },
+        "serverError": {
+            "title": "Something went wrong",
+            "text": "A server error occurred. Please try again later."
+        }
     }
 }

@@ -7,19 +7,21 @@ const {expressjwt}=require('express-jwt');
 const config = require('config');
 const i18n = require('./config/i18n');
 //importamos el modulo de rutas 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var productRouter = require('./routes/product');
-var productVariantRouter = require('./routes/productVariant');
-var inventoryRouter = require('./routes/inventory');
-var permissionRouter = require('./routes/permission');
-var roleRouter = require('./routes/role');
-var rolePermissionRouter = require('./routes/rolePermission');
-var customerRouter = require('./routes/customer');
-var orderRouter = require('./routes/order');
+var indexRouter = require('./routes/api/index');
+var usersRouter = require('./routes/api/users');
+var productRouter = require('./routes/api/product');
+var productVariantRouter = require('./routes/api/productVariant');
+var inventoryRouter = require('./routes/api/inventory');
+var permissionRouter = require('./routes/api/permission');
+var roleRouter = require('./routes/api/role');
+var rolePermissionRouter = require('./routes/api/rolePermission');
+var customerRouter = require('./routes/api/customer');
+var orderRouter = require('./routes/api/order');
 const setLanguage = require('./middlewares/language');
+const setLocals = require('./middlewares/locals');
 
-var authRouter = require('./routes/auth');
+var authRouter = require('./routes/api/auth');
+const indexWebRouter = require('./routes/web/index');
 const authenticate = require('./middlewares/authenticate');
 const errorHandler = require('./middlewares/errorHandler');
 var app = express();
@@ -35,10 +37,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(i18n.init);
 app.use(setLanguage);
+app.use(setLocals);
 
 //conectamos cada router a un URL especifico
-app.use('/', indexRouter);
-
+app.use('/', indexWebRouter);
+app.use('/health', indexRouter);
 // autenticacion: va ANTES de los routers protegidos
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1', expressjwt({ secret: config.get('jwt.secret'), algorithms: [config.get('jwt.algorithm')] }));

@@ -1,0 +1,13 @@
+extends ../layouts/store
+
+block content
+  .container.py-5.text-center
+    .store-panel.mx-auto(style='max-width:600px')
+      i.bi.display-2(class='bi-slash-circle')
+      p.display-1.mb-0(style='font-weight:900')= status
+      h1.h3.fw-bold= __('errors.forbidden.title')
+      p.text-secondary= message
+      p.text-secondary= __('errors.forbidden.text')
+      a.btn.btn-dark(href='/')= __('errors.backHome')
+      if error && error.stack
+        pre.text-start.small.mt-4= error.stack

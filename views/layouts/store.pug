@@ -1,0 +1,36 @@
+extends base
+
+block body
+  header.store-header
+    .container.py-2.d-flex.justify-content-between.align-items-center.gap-3
+      a.brand.text-decoration-none.text-reset(href='/')
+        | STRIDE
+        span -CO
+        small.d-block.fw-normal.text-secondary(style='font-size:.59rem;letter-spacing:2px')= __('layout.tagline')
+      nav.store-nav.d-flex.align-items-center
+        each item in storeMenu
+          a(href=item.href, class=isActive(item.href) ? 'active' : '')
+            if item.icon
+              i.bi.me-1(class=item.icon)
+            = __(item.label)
+            if item.key === 'cart'
+              span.badge.text-bg-dark.ms-1= cartCount
+      .d-flex.align-items-center.gap-2
+        .btn-group.btn-group-sm(role='group', aria-label=__('layout.language'))
+          a.btn.btn-outline-secondary(href=langUrl('es'), class=lang === 'es' ? 'active' : '') ES
+          a.btn.btn-outline-secondary(href=langUrl('en'), class=lang === 'en' ? 'active' : '') EN
+        if currentUser
+          form(method='post', action='/logout')
+            button.btn.btn-outline-dark.btn-sm(type='submit')= __('layout.logout')
+        else
+          a.btn.btn-outline-dark.btn-sm(href='/login')
+            i.bi.bi-shield-lock.me-1
+            = __('layout.login')
+
+  block content
+
+  footer.shop-footer.py-5
+    .container.d-flex.justify-content-between.flex-wrap.gap-2
+      strong.fs-4 STRIDE-CO
+      div= __('layout.footer.links')
+      small= __('layout.footer.rights')

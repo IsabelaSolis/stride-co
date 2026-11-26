@@ -44,14 +44,19 @@ function errorHandler(err, req, res, next) {
     console.error(err);
   }
 
-  // La API responde JSON; las demas rutas conservan la vista de error
+  // La API responde JSON; las rutas web renderizan una pagina de error con el codigo real
   if (req.originalUrl.startsWith('/api')) {
     return res.status(status).json({ message, data });
   }
-  res.locals.message = message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  const view = status === 403 || status === 404 ? `errors/${status}` : 'errors/500';
   res.status(status);
-  res.render('error');
+  res.render(view, {
+    title: String(status),
+    status,
+    message,
+    // el stack solo se muestra fuera de produccion
+    error: req.app.get('env') === 'production' ? {} : err
+  });
 }
 
 module.exports = errorHandler;

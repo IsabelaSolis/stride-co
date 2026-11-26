@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const roleController = require('../controllers/role');
-const authorize = require('../middlewares/authorize');
+const roleController = require('../../controllers/role');
+const authorize = require('../../middlewares/authorize');
 
 router.get('/', authorize('roles', 'read', 'any'), roleController.list);
 router.get('/:id', authorize('roles', 'read', 'any'), roleController.find);
