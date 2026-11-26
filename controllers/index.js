@@ -1,12 +1,5 @@
-const { Product } = require('../models/relationals');
-
 function healthCheck(req, res) {
   res.json({ status: 'UP' });
 }
 
-async function home(req, res) {
-  const products = await Product.findAll();
-  res.render("index", { title: 'Stride-co', products: products });
-}
-
-module.exports = { healthCheck, home };
+module.exports = { healthCheck };

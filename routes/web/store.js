@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../../controllers/index');
+const controller = require('../../controllers/web/store');
 
-/* GET home page. */
 router.get('/', controller.home);
+router.get('/products', controller.catalog);
 
-router.get('/health', controller.healthCheck);
 module.exports = router;

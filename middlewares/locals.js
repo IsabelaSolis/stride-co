@@ -26,6 +26,12 @@ function setLocals(req, res, next) {
     params.set('lang', target);
     return `${req.path}?${params.toString()}`;
   };
+  // misma URL pero en otra pagina (paginacion; conserva q, category, etc.)
+  res.locals.pageUrl = (n) => {
+    const params = new URLSearchParams(req.query);
+    params.set('page', n);
+    return `${req.path}?${params.toString()}`;
+  };
 
   // formato según el idioma
   res.locals.formatPrice = (value) =>

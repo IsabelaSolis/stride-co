@@ -1,0 +1,26 @@
+extends ../layouts/store
+include ../mixins/productCard
+
+block content
+  .container.py-5
+    .d-flex.justify-content-between.align-items-center.flex-wrap.gap-3.mb-4
+      div
+        span.tiny.text-uppercase.fw-bold= __('store.catalog.kicker')
+        h2.fw-bold.mb-0= __('store.catalog.title')
+        p.tiny.mb-0= __('store.catalog.count', total)
+      form.d-flex.gap-2.flex-wrap(method='get', action='/products')
+        input.form-control(type='search', name='q', value=q, placeholder=__('store.catalog.search'), aria-label=__('store.catalog.search'))
+        select.form-select(name='category', aria-label=__('store.catalog.category'))
+          option(value='')= __('store.catalog.allCategories')
+          each item in categories
+            option(value=item, selected=item === category)= item
+        button.btn.btn-dark(type='submit')= __('store.catalog.searchButton')
+        if q || category
+          a.btn.btn-outline-secondary(href='/products')= __('store.catalog.clear')
+    .row.g-4
+      each product in products
+        +productCard(product)
+      else
+        .col-12
+          .store-panel.text-center.text-secondary= __('store.catalog.empty')
+    include ../partials/pagination

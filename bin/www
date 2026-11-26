@@ -11,6 +11,7 @@ var http = require('http');
 const {sequelize} = require('../models/relationals');
 const connectMongo =require('../config/mongoose');
 const {loadAccessControl} = require('../rbac/accessControl');
+const ensureSchema = require('../config/ensureSchema');
 
 /**
 * Get port from environment and store in Express.
@@ -28,6 +29,7 @@ async function start(){
 await sequelize.authenticate();
 //crear las tablas
 await sequelize.sync();
+await ensureSchema();
 debug('Conexion a sql generada correctamente');
 
 await loadAccessControl();

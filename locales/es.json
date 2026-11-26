@@ -161,5 +161,37 @@
             "title": "Algo salió mal",
             "text": "Ocurrió un error en el servidor. Inténtalo más tarde."
         }
+    },
+    "store": {
+        "home": {
+            "title": "Inicio",
+            "description": "Stride-Co: tenis urbanos, deportivos y esenciales para moverte a tu ritmo. Conoce la nueva colección.",
+            "badge": "NUEVA COLECCIÓN · STRIDE 2026",
+            "heroLine1": "ENCUENTRA TU",
+            "heroLine2": "SIGUIENTE PASO.",
+            "subtitle": "Tenis urbanos, deportivos y esenciales para moverte a tu ritmo.",
+            "cta": "Explorar colección",
+            "featuredKicker": "Seleccionados para ti",
+            "featured": "Destacados",
+            "viewCatalog": "Ver catálogo"
+        },
+        "catalog": {
+            "title": "Todos los productos",
+            "description": "Explora el catálogo de Stride-Co: tenis de running, urbanos y de training.",
+            "kicker": "Stride-Co / Tienda",
+            "search": "Buscar producto...",
+            "category": "Categoría",
+            "allCategories": "Todas las categorías",
+            "searchButton": "Buscar",
+            "clear": "Limpiar",
+            "count": "%s productos",
+            "empty": "No encontramos productos con esos filtros.",
+            "viewDetail": "Ver detalle"
+        }
+    },
+    "pagination": {
+        "label": "Paginación",
+        "previous": "Anterior",
+        "next": "Siguiente"
     }
 }

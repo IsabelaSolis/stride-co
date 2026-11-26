@@ -161,5 +161,37 @@
             "title": "Something went wrong",
             "text": "A server error occurred. Please try again later."
         }
+    },
+    "store": {
+        "home": {
+            "title": "Home",
+            "description": "Stride-Co: urban, sport and essential sneakers to move at your own pace. Discover the new collection.",
+            "badge": "NEW COLLECTION · STRIDE 2026",
+            "heroLine1": "FIND YOUR",
+            "heroLine2": "NEXT STEP.",
+            "subtitle": "Urban, sport and essential sneakers to move at your own pace.",
+            "cta": "Explore collection",
+            "featuredKicker": "Picked for you",
+            "featured": "Featured",
+            "viewCatalog": "View catalog"
+        },
+        "catalog": {
+            "title": "All products",
+            "description": "Browse the Stride-Co catalog: running, urban and training sneakers.",
+            "kicker": "Stride-Co / Store",
+            "search": "Search product...",
+            "category": "Category",
+            "allCategories": "All categories",
+            "searchButton": "Search",
+            "clear": "Clear",
+            "count": "%s products",
+            "empty": "No products match those filters.",
+            "viewDetail": "View details"
+        }
+    },
+    "pagination": {
+        "label": "Pagination",
+        "previous": "Previous",
+        "next": "Next"
     }
 }

@@ -23,7 +23,7 @@ const flash = require('./middlewares/flash');
 const { loadWebUser } = require('./middlewares/webSession');
 
 var authRouter = require('./routes/api/auth');
-const indexWebRouter = require('./routes/web/index');
+const storeWebRouter = require('./routes/web/store');
 const authWebRouter = require('./routes/web/auth');
 const authenticate = require('./middlewares/authenticate');
 const errorHandler = require('./middlewares/errorHandler');
@@ -45,7 +45,7 @@ app.use(flash);
 app.use(loadWebUser);
 
 //conectamos cada router a un URL especifico
-app.use('/', indexWebRouter);
+app.use('/', storeWebRouter);
 app.use('/', authWebRouter);
 app.use('/health', indexRouter);
 // autenticacion: va ANTES de los routers protegidos

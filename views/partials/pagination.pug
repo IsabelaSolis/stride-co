@@ -1,0 +1,10 @@
+if totalPages > 1
+  nav.mt-4(aria-label=__('pagination.label'))
+    ul.pagination.justify-content-center
+      li.page-item(class=page <= 1 ? 'disabled' : '')
+        a.page-link(href=pageUrl(page - 1))= __('pagination.previous')
+      - for (var n = 1; n <= totalPages; n++)
+        li.page-item(class=n === page ? 'active' : '')
+          a.page-link(href=pageUrl(n))= n
+      li.page-item(class=page >= totalPages ? 'disabled' : '')
+        a.page-link(href=pageUrl(page + 1))= __('pagination.next')

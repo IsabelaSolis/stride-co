@@ -1,0 +1,28 @@
+extends ../layouts/store
+include ../mixins/productCard
+
+block content
+  .hero
+    .container
+      .col-lg-7
+        span.badge.text-bg-light.mb-3= __('store.home.badge')
+        h1
+          = __('store.home.heroLine1')
+          br
+          span(style='color:var(--lime)')= __('store.home.heroLine2')
+        p.fs-5.opacity-75= __('store.home.subtitle')
+        a.btn.btn-lime.btn-lg(href='/products')
+          = __('store.home.cta')
+          i.bi.bi-arrow-right.ms-2
+  .container.py-5
+    .d-flex.justify-content-between.align-items-end.mb-4
+      div
+        span.text-uppercase.tiny.fw-bold= __('store.home.featuredKicker')
+        h2.fw-bold.mb-0= __('store.home.featured')
+      a.btn.btn-outline-dark(href='/products')= __('store.home.viewCatalog')
+    .row.g-4
+      each product in products
+        +productCard(product)
+      else
+        .col-12
+          .store-panel.text-center.text-secondary= __('store.catalog.empty')
