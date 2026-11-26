@@ -26,6 +26,10 @@ block body
           a.btn.btn-outline-dark.btn-sm(href='/login')
             i.bi.bi-shield-lock.me-1
             = __('layout.login')
+        if flash
+          .container.pt-3
+          include ../partials/flash
+
 
   block content
 

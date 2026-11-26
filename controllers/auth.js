@@ -1,20 +1,6 @@
 const { User, Role } = require('../models/relationals');
-const { verifyPassword } = require('../utils/password');
-const jwt=require('jsonwebtoken');
+const authService = require('../services/auth.service');
 const config = require('config');
-
-//const INVALID_CREDENTIALS = { message: 'Invalid Credentials' };
-
-function signToken(user){//recibe un usuario para poder ingresar los datos que necesitamos
-  const jwtOptions={//elementos que queremos firmar en el jwt
-    expiresIn: config.get('jwt.expiresIn'),//TIEMPO DE EXPIRACION QUE TIENE EL JWT
-    issuer: config.get('jwt.issuer'),
-    audience: config.get('jwt.audience'),
-    algorithm: config.get('jwt.algorithm')
-  };
-
-  return jwt.sign({sub: String(user.id)}, config.get('jwt.secret'), jwtOptions);
-}
 
 async function login(req, res, next) {
   try {
@@ -23,16 +9,13 @@ async function login(req, res, next) {
       return res.status(400).json({ message: req.__('common.validationError') });
     }
 
-    const user = await User.findOne({ where: { email } });
-    if (!user || !user.active) return res.status(401).json({ message: req.__('auth.invalidCredentials') });
-
-    const valid = await verifyPassword(password, user.password);
-    if (!valid) return res.status(401).json({ message: req.__('auth.invalidCredentials') });
+    const user = await authService.authenticate(email, password);
+    if (!user) return res.status(401).json({ message: req.__('auth.invalidCredentials') });
 
     res.json({
       message: req.__('auth.loginSuccess'),
       data: {
-        token: signToken(user),
+        token: authService.signToken(user),
         token_type: 'Bearer',
         expires_in: config.get('jwt.expiresIn')
       }
@@ -41,6 +24,7 @@ async function login(req, res, next) {
     next(err);
   }
 }
+
 async function me(req, res, next) {
   try {
     const user = await User.findByPk(req.user.id, { include: [{ model: Role, as: 'role' }] });
@@ -49,4 +33,5 @@ async function me(req, res, next) {
     next(err);
   }
 }
+
 module.exports = { login, me };

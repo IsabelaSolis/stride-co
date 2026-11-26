@@ -5,7 +5,29 @@
     "auth": {
         "invalidCredentials": "Credenciales inválidas",
         "me": "Usuario autenticado obtenido",
-        "loginSuccess": "Inicio de sesión exitoso"
+        "loginSuccess": "Inicio de sesión exitoso",
+        "web": {
+            "title": "Iniciar sesión",
+            "description": "Inicia sesión en Stride-Co para acceder a tu cuenta y al panel administrativo.",
+            "panelAccess": "Acceso al panel administrativo",
+            "subtitle": "Ingresa con tu cuenta.",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "togglePassword": "Mostrar u ocultar contraseña",
+            "submit": "Entrar",
+            "backToStore": "Volver a la tienda",
+            "welcome": "Sesión iniciada correctamente",
+            "loggedOut": "Sesión cerrada",
+            "demo": {
+                "title": "Usuarios de demostración",
+                "note": "La contraseña está en el README. Este recuadro no aparece en producción."
+            },
+            "errors": {
+                "emailRequired": "El correo electrónico es obligatorio",
+                "emailInvalid": "Escribe un correo electrónico válido",
+                "passwordRequired": "La contraseña es obligatoria"
+            }
+        }
     },
     "common": {
         "invalidId": "Id inválido",
