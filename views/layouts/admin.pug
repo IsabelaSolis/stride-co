@@ -30,4 +30,6 @@ block body
             = currentUser.email
           form(method='post', action='/logout')
             button.btn.btn-outline-secondary.btn-sm(type='submit')= __('layout.logout')
+            if flash
+            include ../partials/flash
     block content

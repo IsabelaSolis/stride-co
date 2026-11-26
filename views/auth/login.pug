@@ -1,0 +1,55 @@
+extends ../layouts/base
+
+block body
+  .login-shell
+    .card.login-card.border-0.shadow-lg.overflow-hidden
+      .px-4.pt-4.pb-3.bg-dark.text-white
+        .fs-3(style='font-weight:900;letter-spacing:-1px')
+          | STRIDE
+          span(style='color:#dfff65') -CO
+        .small.text-white-50= __('auth.web.panelAccess')
+      .card-body.p-4
+        h1.h4.fw-bold.mb-1= __('auth.web.title')
+        p.text-secondary.small.mb-4= __('auth.web.subtitle')
+
+        form(method='post', action='/login')
+          if redirectTo
+            input(type='hidden', name='next', value=redirectTo)
+
+          label.form-label.fw-semibold.small(for='email')= __('auth.web.email')
+          input#email.form-control(type='email', name='email', value=email, autocomplete='username', required, class=errors.email ? 'is-invalid' : '')
+          if errors.email
+            .invalid-feedback= errors.email
+          .mb-3
+
+          label.form-label.fw-semibold.small(for='password')= __('auth.web.password')
+          .input-group
+            input#password.form-control(type='password', name='password', autocomplete='current-password', required, placeholder=__('auth.web.password'), class=errors.password ? 'is-invalid' : '')
+            button#togglePassword.btn.btn-outline-secondary(type='button', hidden, aria-label=__('auth.web.togglePassword'))
+              i.bi.bi-eye
+            if errors.password
+              .invalid-feedback= errors.password
+
+          if formError
+            .alert.alert-danger.py-2.small.mt-3(role='alert')= formError
+
+          button.btn.btn-dark.w-100.py-2.mt-3.fw-semibold(type='submit')
+            = __('auth.web.submit')
+            i.bi.bi-arrow-right.ms-1
+
+        if demoUsers
+          .rounded-3.bg-light.border.p-3.small.mt-4
+            .fw-bold.mb-1
+              i.bi.bi-info-circle.me-1
+              = __('auth.web.demo.title')
+            each demoEmail in demoUsers
+              div
+                code= demoEmail
+            .text-secondary.mt-1= __('auth.web.demo.note')
+
+        a.btn.btn-link.text-dark.w-100.mt-3.text-decoration-none(href='/')
+          i.bi.bi-arrow-left.me-1
+          = __('auth.web.backToStore')
+
+block scripts
+  script(src='/js/password-toggle.js')

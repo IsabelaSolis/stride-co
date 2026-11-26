@@ -19,9 +19,12 @@ var customerRouter = require('./routes/api/customer');
 var orderRouter = require('./routes/api/order');
 const setLanguage = require('./middlewares/language');
 const setLocals = require('./middlewares/locals');
+const flash = require('./middlewares/flash');
+const { loadWebUser } = require('./middlewares/webSession');
 
 var authRouter = require('./routes/api/auth');
 const indexWebRouter = require('./routes/web/index');
+const authWebRouter = require('./routes/web/auth');
 const authenticate = require('./middlewares/authenticate');
 const errorHandler = require('./middlewares/errorHandler');
 var app = express();
@@ -38,9 +41,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(i18n.init);
 app.use(setLanguage);
 app.use(setLocals);
+app.use(flash);
+app.use(loadWebUser);
 
 //conectamos cada router a un URL especifico
 app.use('/', indexWebRouter);
+app.use('/', authWebRouter);
 app.use('/health', indexRouter);
 // autenticacion: va ANTES de los routers protegidos
 app.use('/api/v1/auth', authRouter);

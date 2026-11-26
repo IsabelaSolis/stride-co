@@ -5,7 +5,29 @@
     "auth": {
         "invalidCredentials": "Invalid credentials",
         "me": "Authenticated user retrieved",
-        "loginSuccess": "Login successful"
+        "loginSuccess": "Login successful",
+        "web": {
+            "title": "Sign in",
+            "description": "Sign in to Stride-Co to access your account and the admin panel.",
+            "panelAccess": "Admin panel access",
+            "subtitle": "Sign in with your account.",
+            "email": "Email address",
+            "password": "Password",
+            "togglePassword": "Show or hide password",
+            "submit": "Sign in",
+            "backToStore": "Back to the store",
+            "welcome": "You are now signed in",
+            "loggedOut": "You have been signed out",
+            "demo": {
+                "title": "Demo users",
+                "note": "The password is in the README. This box is not shown in production."
+            },
+            "errors": {
+                "emailRequired": "Email address is required",
+                "emailInvalid": "Enter a valid email address",
+                "passwordRequired": "Password is required"
+            }
+        }
     },
     "common": {
         "invalidId": "Invalid id",
