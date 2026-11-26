@@ -9,6 +9,7 @@ const Product = sequelize.define('Product', {
     },
     description: { type: DataTypes.TEXT },
     brand: { type: DataTypes.STRING(100) },
+    category: { type: DataTypes.STRING(50) },
     price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,

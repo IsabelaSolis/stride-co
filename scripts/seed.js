@@ -7,6 +7,7 @@ const {
 } = require('../models/relationals');
 const { Customer, Order } = require('../models/documents');
 const { hashPassword } = require('../utils/password');
+const ensureSchema = require('../config/ensureSchema');
 
 // Matriz RBAC: Permission.key -> roles que lo tienen
 const matrix = {
@@ -107,16 +108,38 @@ async function seedRbac() {
 
 async function seedCatalog() {
   const catalog = [
-    { name: 'Tenis Runner', brand: 'Stride', price: 1299.9, variants: [
+    { name: 'Tenis Runner', brand: 'Stride', category: 'Running', price: 1299.9,
+      description: 'Tenis ligeros para correr todos los días.', variants: [
       { sku: 'RUN-27-NEG', size: '27', color: 'negro', stock: 15 },
       { sku: 'RUN-28-BLA', size: '28', color: 'blanco', stock: 8 }
     ] },
-    { name: 'Botas Urbanas', brand: 'Stride', price: 1899, variants: [
+    { name: 'Botas Urbanas', brand: 'Stride', category: 'Urbanos', price: 1899,
+      description: 'Botas resistentes con estilo urbano.', variants: [
       { sku: 'BOT-26-CAF', size: '26', color: 'cafe', stock: 5 }
     ] },
-    { name: 'Playera Basica', brand: 'Stride', price: 299.5,variants: [
+    { name: 'Playera Basica', brand: 'Stride', category: 'Training', price: 299.5,
+      description: 'Playera cómoda y transpirable para entrenar.', variants: [
       { sku: 'PLA-M-AZU', size: 'M', color: 'azul', stock: 40 },
       { sku: 'PLA-L-AZU', size: 'L', color: 'azul', stock: 25 }
+    ] },
+    // productos del prototipo (stride_co_mockup.html)
+    { name: 'Stride Runner X', brand: 'Stride-Co', category: 'Running', price: 1899,
+      description: 'Ligereza y amortiguación para tus kilómetros diarios.', variants: [
+      { sku: 'RUN-X-BLK-26', size: '26', color: 'Negro', stock: 20 },
+      { sku: 'RUN-X-BLK-27', size: '27', color: 'Negro', stock: 13 }
+    ] },
+    { name: 'Street Motion', brand: 'Stride-Co', category: 'Urbanos', price: 1499,
+      description: 'Silueta urbana para uso diario.', variants: [
+      { sku: 'STM-WHT-26', size: '26', color: 'Blanco', stock: 24 },
+      { sku: 'STM-WHT-27', size: '27', color: 'Blanco', stock: 17 }
+    ] },
+    { name: 'Velocity Pro', brand: 'Stride-Co', category: 'Training', price: 2199,
+      description: 'Estabilidad y agarre en cada entrenamiento.', variants: [
+      { sku: 'VEL-BLU-27', size: '27', color: 'Azul', stock: 8 }
+    ] },
+    { name: 'Everyday Lite', brand: 'Stride-Co', category: 'Urbanos', price: 1299,
+      description: 'Comodidad sencilla para todos los días.', variants: [
+      { sku: 'EDL-GRY-26', size: '26', color: 'Gris', stock: 31 }
     ] }
   ];
 
@@ -124,8 +147,14 @@ async function seedCatalog() {
   for (const item of catalog) {
     const [product] = await Product.findOrCreate({
       where: { name: item.name },
-      defaults: { name: item.name, brand: item.brand, price: item.price}
+      defaults: { name: item.name, brand: item.brand, price: item.price,
+        category: item.category, description: item.description }
     });
+    // productos creados por un seed anterior: completar categoria y descripcion
+    const missing = {};
+    if (!product.category) missing.category = item.category;
+    if (!product.description) missing.description = item.description;
+    if (Object.keys(missing).length > 0) await product.update(missing);
     products.push(product);
     for (const v of item.variants) {
       const [variant] = await ProductVariant.findOrCreate({
@@ -180,6 +209,7 @@ async function seedMongo(userByRole, products) {
 async function seed() {
   await sequelize.authenticate();
   await sequelize.sync(); // crea las tablas que falten
+  await ensureSchema(); // agrega columnas nuevas a tablas ya existentes
   await connectMongo();
 
   const userByRole = await seedRbac();

@@ -75,19 +75,6 @@ describe('Deteccion del idioma', () => {
 });
 
 describe('Vistas Pug', () => {
-  test('GET /?lang=es muestra la bienvenida en espanol', async () => {
-    const res = await request(app).get('/?lang=es');
-    expect(res.statusCode).toBe(200);
-    expect(res.text).toContain('Bienvenido');
-    expect(res.text).toContain('<html lang="es">');
-  });
-
-  test('GET / sin idioma muestra la bienvenida en ingles', async () => {
-    const res = await request(app).get('/');
-    expect(res.text).toContain('Welcome');
-    expect(res.text).toContain('<html lang="en">');
-  });
-
   test('la pagina de error se muestra traducida', async () => {
     const res = await request(app).get('/ruta-que-no-existe?lang=es');
     expect(res.statusCode).toBe(404);

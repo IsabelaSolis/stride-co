@@ -2,8 +2,8 @@
 // enabled: false => el enlace no se muestra (la pantalla aún no está implementada).
 // Cuando una funcionalidad esté terminada, cambia su enabled a true.
 const STORE_MENU = [
-  { key: 'home', href: '/', label: 'layout.nav.home', enabled: false },
-  { key: 'products', href: '/products', label: 'layout.nav.products', enabled: false },
+  { key: 'home', href: '/', label: 'layout.nav.home', enabled: true },
+  { key: 'products', href: '/products', label: 'layout.nav.products', enabled: true },
   { key: 'orders', href: '/my/orders', label: 'layout.nav.orders', enabled: false },
   { key: 'cart', href: '/cart', label: 'layout.nav.cart', icon: 'bi-bag', enabled: false }
 ];
