@@ -18,6 +18,7 @@ var rolePermissionRouter = require('./routes/api/rolePermission');
 var customerRouter = require('./routes/api/customer');
 var orderRouter = require('./routes/api/order');
 const setLanguage = require('./middlewares/language');
+const setLocals = require('./middlewares/locals');
 
 var authRouter = require('./routes/api/auth');
 const indexWebRouter = require('./routes/web/index');
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(i18n.init);
 app.use(setLanguage);
+app.use(setLocals);
 
 //conectamos cada router a un URL especifico
 app.use('/', indexWebRouter);

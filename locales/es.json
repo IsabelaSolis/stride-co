@@ -1,11 +1,11 @@
 {
     "index": {
-    "welcome": "Bienvenido a %s"
+        "welcome": "Bienvenido a %s"
     },
     "auth": {
-    "invalidCredentials": "Credenciales inválidas",
-    "me": "Usuario autenticado obtenido",
-    "loginSuccess": "Inicio de sesión exitoso"
+        "invalidCredentials": "Credenciales inválidas",
+        "me": "Usuario autenticado obtenido",
+        "loginSuccess": "Inicio de sesión exitoso"
     },
     "common": {
         "invalidId": "Id inválido",
@@ -92,5 +92,52 @@
         "created": "Permiso asignado al rol",
         "deleted": "Permiso quitado del rol",
         "notFound": "El rol no tiene ese permiso"
+    },
+    "layout": {
+        "defaultDescription": "Stride-Co: tenis urbanos, deportivos y esenciales para moverte a tu ritmo.",
+        "tagline": "MOVE YOUR WAY",
+        "language": "Idioma",
+        "login": "Administrador",
+        "logout": "Cerrar sesión",
+        "nav": {
+            "home": "Inicio",
+            "products": "Productos",
+            "orders": "Mis pedidos",
+            "cart": "Bolsa"
+        },
+        "footer": {
+            "links": "Catálogo · Pedidos · Soporte",
+            "rights": "© 2026 Stride-Co. Todos los derechos reservados."
+        }
+    },
+    "admin": {
+        "panel": "Panel administrativo",
+        "breadcrumb": "Stride-Co / Administración",
+        "viewStore": "Ver tienda",
+        "nav": {
+            "dashboard": "Dashboard",
+            "products": "Productos",
+            "variants": "Variantes",
+            "inventory": "Inventario",
+            "orders": "Pedidos",
+            "customers": "Clientes",
+            "users": "Usuarios",
+            "roles": "Roles y permisos"
+        }
+    },
+    "errors": {
+        "backHome": "Volver al inicio",
+        "forbidden": {
+            "title": "Acceso denegado",
+            "text": "Tu cuenta no tiene permiso para ver esta página."
+        },
+        "notFound": {
+            "title": "Página no encontrada",
+            "text": "Revisa la dirección o regresa al inicio."
+        },
+        "serverError": {
+            "title": "Algo salió mal",
+            "text": "Ocurrió un error en el servidor. Inténtalo más tarde."
+        }
     }
 }
