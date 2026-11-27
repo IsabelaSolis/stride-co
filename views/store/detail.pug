@@ -1,0 +1,44 @@
+extends ../layouts/store
+
+block content
+  - var variantText = function (v) { return v.available > 0 ? __('store.detail.variantOption', v.size, v.color, v.available) : __('store.detail.variantSoldOut', v.size, v.color); }
+  .container.py-5
+    a.btn.btn-link.text-dark.ps-0.mb-3(href='/products')
+      i.bi.bi-arrow-left.me-1
+      = __('store.detail.back')
+    .row.g-4
+      .col-md-6
+        .shoe-art.rounded-4(style='height:420px;background:' + productColor(product.id))
+          span.shoe(style='font-size:11rem') 👟
+      .col-md-6
+        span.tiny.text-uppercase
+          if product.category
+            = product.category + ' / '
+          = product.brand
+        h1.fw-bold.mt-2= product.name
+        h3.fw-bold= formatPrice(product.price)
+        if product.description
+          p.text-secondary.py-3= product.description
+
+        if product.variants.length === 0
+          .alert.alert-secondary= __('store.detail.noVariants')
+        else if cartEnabled
+          form(method='post', action='/cart/items')
+            label.form-label.fw-semibold(for='variantId')= __('store.detail.selectVariant')
+            select#variantId.form-select.mb-3(name='variantId')
+              each v in product.variants
+                option(value=v.id, disabled=v.available === 0)= variantText(v)
+            button.btn.btn-dark.btn-lg.w-100(type='submit', disabled=!product.inStock)
+              i.bi.bi-bag-plus.me-2
+              = __('store.detail.addToCart')
+        else
+          .fw-semibold.mb-2= __('store.detail.variants')
+          ul.list-group.mb-3
+            each v in product.variants
+              li.list-group-item= variantText(v)
+
+        if !product.inStock && product.variants.length > 0
+          p.text-danger.small= __('store.detail.soldOut')
+        p.tiny.mt-3
+          i.bi.bi-truck.me-1
+          = __('store.detail.shipping')
