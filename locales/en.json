@@ -187,6 +187,17 @@
             "count": "%s products",
             "empty": "No products match those filters.",
             "viewDetail": "View details"
+        },
+        "detail": {
+            "back": "Back to catalog",
+            "variants": "Available variants",
+            "selectVariant": "Select variant (size and color)",
+            "variantOption": "Size %s · %s — %s available",
+            "variantSoldOut": "Size %s · %s — Sold out",
+            "addToCart": "Add to bag",
+            "noVariants": "This product has no available variants yet.",
+            "soldOut": "This product is currently sold out.",
+            "shipping": "Nationwide shipping · Demo purchase"
         }
     },
     "pagination": {

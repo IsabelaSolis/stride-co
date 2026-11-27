@@ -1,5 +1,5 @@
 const { Op, fn, col } = require('sequelize');
-const { Product } = require('../models/relationals');
+const { Product, ProductVariant, Inventory } = require('../models/relationals');
 
 const PAGE_SIZE = 6;
 
@@ -44,5 +44,41 @@ async function listCategories() {
 async function listFeatured(limit = 4) {
   return Product.findAll({ where: { active: true }, order: [['id', 'DESC']], limit });
 }
+// disponible = stock - reserved (nunca menos de 0)
+function availableOf(inventory) {
+  if (!inventory) return 0;
+  return Math.max(0, inventory.stock - inventory.reserved);
+}
 
-module.exports = { PAGE_SIZE, listActive, listCategories, listFeatured };
+// Producto ACTIVO con sus variantes activas y las unidades disponibles de cada una.
+// Regresa null si el id no es valido, no existe o el producto esta inactivo.
+async function findActiveById(id) {
+  const productId = Number(id);
+  if (!Number.isInteger(productId) || productId < 1) return null;
+
+  const record = await Product.findOne({
+    where: { id: productId, active: true },
+    include: [{
+      model: ProductVariant,
+      as: 'variants',
+      required: false,
+      where: { active: true },
+      include: [{ model: Inventory, as: 'inventory' }]
+    }],
+    order: [[{ model: ProductVariant, as: 'variants' }, 'id', 'ASC']]
+  });
+  if (!record) return null;
+
+  const product = record.get({ plain: true });
+  product.variants = (product.variants || []).map((variant) => ({
+    id: variant.id,
+    sku: variant.sku,
+    size: variant.size,
+    color: variant.color,
+    available: availableOf(variant.inventory)
+  }));
+  product.inStock = product.variants.some((variant) => variant.available > 0);
+  return product;
+}
+
+module.exports = { PAGE_SIZE, availableOf, listActive, listCategories, listFeatured, findActiveById };

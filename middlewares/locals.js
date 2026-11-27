@@ -2,6 +2,7 @@ const { URLSearchParams } = require('url');
 const { STORE_MENU, ADMIN_MENU } = require('../config/menus');
 
 const INTL_LOCALE = { es: 'es-MX', en: 'en-US' };
+const PALETTE = ['#e9f1fd', '#f3e9df', '#e6f0e9', '#eae8f6'];
 
 // Variables y helpers disponibles en TODAS las vistas Pug
 function setLocals(req, res, next) {
@@ -12,6 +13,9 @@ function setLocals(req, res, next) {
   res.locals.currentPath = req.path;
   res.locals.currentUser = req.user || null;
   res.locals.cartCount = 0; // se calcula en F4 (bolsa)
+    // el formulario "Agregar a la bolsa" solo aparece cuando la bolsa (F4) esta habilitada en config/menus.js
+  res.locals.cartEnabled = STORE_MENU.some((item) => item.key === 'cart' && item.enabled);
+  res.locals.productColor = (id) => PALETTE[Number(id) % PALETTE.length];
 
   res.locals.storeMenu = STORE_MENU.filter((item) => item.enabled);
   res.locals.adminMenu = ADMIN_MENU.filter((item) => item.enabled);

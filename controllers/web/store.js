@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const productService = require('../../services/product.service');
 
 // Parametro de query como texto (si viene repetido, ?q=a&q=b, se usa el primero)
@@ -42,4 +43,25 @@ async function catalog(req, res, next) {
   }
 }
 
-module.exports = { home, catalog };
+// texto corto para <meta name="description">
+function summarize(text, max = 155) {
+  return text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text;
+}
+
+// GET /products/:id
+async function detail(req, res, next) {
+  try {
+    const product = await productService.findActiveById(req.params.id);
+    if (!product) return next(createError(404)); // no existe o esta inactivo
+
+    res.render('store/detail', {
+      title: product.name,
+      metaDescription: summarize(product.description || `${product.name} - ${product.brand || 'Stride-Co'}`),
+      product
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { home, catalog, detail };

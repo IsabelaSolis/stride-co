@@ -187,6 +187,17 @@
             "count": "%s productos",
             "empty": "No encontramos productos con esos filtros.",
             "viewDetail": "Ver detalle"
+        },
+        "detail": {
+            "back": "Volver al catálogo",
+            "variants": "Variantes disponibles",
+            "selectVariant": "Seleccionar variante (talla y color)",
+            "variantOption": "Talla %s · %s — %s disponibles",
+            "variantSoldOut": "Talla %s · %s — Agotado",
+            "addToCart": "Agregar a la bolsa",
+            "noVariants": "Este producto todavía no tiene variantes disponibles.",
+            "soldOut": "Producto agotado por el momento.",
+            "shipping": "Envío nacional · Compra de demostración"
         }
     },
     "pagination": {

@@ -1,9 +1,8 @@
 //- Tarjeta de producto (tienda). Uso: +productCard(product)
 mixin productCard(product)
-  - var palette = ['#e9f1fd', '#f3e9df', '#e6f0e9', '#eae8f6']
   .col-sm-6.col-lg-3
     a.product-tile(href='/products/' + product.id)
-      .shoe-art(style='background:' + palette[product.id % palette.length])
+      .shoe-art(style='background:' + productColor(product.id))
         if product.category
           span.tag.badge.text-bg-light= product.category
         span.shoe 👟
