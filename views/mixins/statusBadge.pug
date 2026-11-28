@@ -1,0 +1,6 @@
+//- Insignia de estado activo / inactivo
+mixin statusBadge(active)
+  if active
+    span.badge.text-bg-success= __('admin.common.active')
+  else
+    span.badge.text-bg-secondary= __('admin.common.inactive')

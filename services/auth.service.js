@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const { User } = require('../models/relationals');
+const { User, Role } = require('../models/relationals');
 const { verifyPassword } = require('../utils/password');
 
 // Servicio compartido por la API (controllers/auth.js) y las vistas web (controllers/web/auth.js)
@@ -32,8 +32,9 @@ async function authenticate(email, password) {
   return valid ? user : null;
 }
 
+// Incluye el rol para poder mostrar u ocultar botones segun los permisos (helper can en las vistas)
 async function findActiveUser(id) {
-  const user = await User.findByPk(id);
+  const user = await User.findByPk(id, { include: [{ model: Role, as: 'role' }] });
   return user && user.active ? user : null;
 }
 

@@ -1,0 +1,46 @@
+extends ../../layouts/admin
+include ../../mixins/statusBadge
+
+block content
+  .d-flex.justify-content-between.align-items-center.flex-wrap.gap-3.mb-3
+    form.d-flex.gap-2(method='get', action='/admin/products')
+      input.form-control(type='search', name='q', value=q, placeholder=__('admin.products.search'), aria-label=__('admin.products.search'))
+      button.btn.btn-dark(type='submit')= __('admin.common.search')
+      if q
+        a.btn.btn-outline-secondary(href='/admin/products')= __('admin.common.clear')
+    if can('products', 'create', 'any')
+      a.btn.btn-dark(href='/admin/products/new')
+        i.bi.bi-plus-lg.me-1
+        = __('admin.products.new')
+  .card.border-0.shadow-sm
+    .table-responsive
+      table.table.table-hover.align-middle.mb-0
+        thead
+          tr
+            th= __('admin.products.fields.id')
+            th= __('admin.products.fields.name')
+            th= __('admin.products.fields.brand')
+            th= __('admin.products.fields.category')
+            th= __('admin.products.fields.price')
+            th= __('admin.products.fields.status')
+            th.text-end= __('admin.common.actions')
+        tbody
+          each product in products
+            tr
+              td= product.id
+              td.fw-semibold= product.name
+              td= product.brand
+              td= product.category
+              td= formatPrice(product.price)
+              td
+                +statusBadge(product.active)
+              td.text-end
+                if can('products', 'update', 'any')
+                  a.btn.btn-sm.btn-outline-secondary.me-1(href='/admin/products/' + product.id + '/edit')= __('admin.common.edit')
+                if can('products', 'delete', 'any')
+                  form.d-inline(method='post', action='/admin/products/' + product.id + '/delete', data-confirm=__('admin.products.confirmDelete', product.name))
+                    button.btn.btn-sm.btn-outline-danger(type='submit')= __('admin.common.delete')
+          else
+            tr
+              td.text-center.text-secondary.py-4(colspan=7)= __('admin.products.empty')
+  include ../../partials/pagination

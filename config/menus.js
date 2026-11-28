@@ -10,7 +10,7 @@ const STORE_MENU = [
 
 const ADMIN_MENU = [
   { key: 'dashboard', href: '/admin', icon: 'bi-grid', label: 'admin.nav.dashboard', resource: 'products', enabled: false },
-  { key: 'products', href: '/admin/products', icon: 'bi-box-seam', label: 'admin.nav.products', resource: 'products', enabled: false },
+  { key: 'products', href: '/admin/products', icon: 'bi-box-seam', label: 'admin.nav.products', resource: 'products', enabled: true },
   { key: 'variants', href: '/admin/variants', icon: 'bi-tags', label: 'admin.nav.variants', resource: 'variants', enabled: false },
   { key: 'inventory', href: '/admin/inventory', icon: 'bi-stack', label: 'admin.nav.inventory', resource: 'inventory', enabled: false },
   { key: 'orders', href: '/admin/orders', icon: 'bi-receipt', label: 'admin.nav.orders', resource: 'orders', enabled: false },

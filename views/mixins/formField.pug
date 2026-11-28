@@ -1,0 +1,14 @@
+//- Campo de formulario con error por campo. Usa las variables values y errors de la vista.
+//- Uso: +formField('name', 'Nombre', { required: true })
+//- opciones: type (text, number, textarea), step, min, list, required, rows
+mixin formField(name, label, options)
+  - var opts = options || {}
+  - var type = opts.type || 'text'
+  .mb-3
+    label.form-label.fw-semibold(for=name)= label
+    if type === 'textarea'
+      textarea.form-control(id=name, name=name, rows=opts.rows || 4, class=errors[name] ? 'is-invalid' : '')= values[name]
+    else
+      input.form-control(id=name, type=type, name=name, value=values[name], step=opts.step, min=opts.min, list=opts.list, required=opts.required, class=errors[name] ? 'is-invalid' : '')
+    if errors[name]
+      .invalid-feedback= errors[name]

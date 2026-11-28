@@ -1,12 +1,5 @@
 const { Role } = require('../models/relationals');
-const { getAccessControl } = require('../rbac/accessControl');
-
-const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-
-function can(ac, roleName, resource, action, possession) {
-  if (!ac.hasRole(roleName)) return false;
-  return ac.can(roleName)[`${action}${cap(possession)}`](resource).granted;
-}
+const { can } = require('../rbac/can');
 
 const isApi = (req) => req.originalUrl.startsWith('/api');
 
@@ -27,10 +20,9 @@ function authorize(resource, action, possession = 'any', getOwnerId) {
       const role = await Role.findByPk(req.user.role_id);
       if (!role) return deny(req, res, next, 403, 'common.forbidden');
 
-      const ac = getAccessControl();
-      if (can(ac, role.name, resource, action, 'any')) return next();
+      if (can(role.name, resource, action, 'any')) return next();
 
-      if (possession === 'own' && can(ac, role.name, resource, action, 'own')) {
+      if (possession === 'own' && can(role.name, resource, action, 'own')) {
         const ownerId = getOwnerId ? await getOwnerId(req) : null;
         if (ownerId !== null && ownerId !== undefined && Number(ownerId) === Number(req.user.id)) {
           return next();

@@ -12,6 +12,7 @@ function setLocals(req, res, next) {
   res.locals.lang = lang;
   res.locals.currentPath = req.path;
   res.locals.currentUser = req.user || null;
+  res.locals.can = () => false; // loadWebUser lo reemplaza cuando hay sesion
   res.locals.cartCount = 0; // se calcula en F4 (bolsa)
     // el formulario "Agregar a la bolsa" solo aparece cuando la bolsa (F4) esta habilitada en config/menus.js
   res.locals.cartEnabled = STORE_MENU.some((item) => item.key === 'cart' && item.enabled);

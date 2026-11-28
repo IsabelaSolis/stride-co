@@ -20,16 +20,21 @@ block body
           a.btn.btn-outline-secondary(href=langUrl('es'), class=lang === 'es' ? 'active' : '') ES
           a.btn.btn-outline-secondary(href=langUrl('en'), class=lang === 'en' ? 'active' : '') EN
         if currentUser
+          - var adminHome = adminMenu.find(function (item) { return can(item.resource, 'read', 'any'); })
+          if adminHome
+            a.btn.btn-outline-dark.btn-sm(href=adminHome.href)
+              i.bi.bi-speedometer2.me-1
+              = __('layout.adminPanel')
           form(method='post', action='/logout')
             button.btn.btn-outline-dark.btn-sm(type='submit')= __('layout.logout')
         else
           a.btn.btn-outline-dark.btn-sm(href='/login')
             i.bi.bi-shield-lock.me-1
             = __('layout.login')
-        if flash
-          .container.pt-3
-          include ../partials/flash
 
+  if flash
+    .container.pt-3
+      include ../partials/flash
 
   block content
 

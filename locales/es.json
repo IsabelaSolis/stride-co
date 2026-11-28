@@ -130,7 +130,8 @@
         "footer": {
             "links": "Catálogo · Pedidos · Soporte",
             "rights": "© 2026 Stride-Co. Todos los derechos reservados."
-        }
+        },
+        "adminPanel": "Panel"
     },
     "admin": {
         "panel": "Panel administrativo",
@@ -145,6 +146,58 @@
             "customers": "Clientes",
             "users": "Usuarios",
             "roles": "Roles y permisos"
+        },
+        "common": {
+            "save": "Guardar",
+            "cancel": "Cancelar",
+            "edit": "Editar",
+            "delete": "Eliminar",
+            "search": "Buscar",
+            "clear": "Limpiar",
+            "actions": "Acciones",
+            "active": "Activo",
+            "inactive": "Inactivo"
+        },
+        "products": {
+            "title": "Productos",
+            "new": "Nuevo producto",
+            "edit": "Editar producto",
+            "search": "Buscar por nombre, marca o categoría...",
+            "empty": "Todavía no hay productos.",
+            "confirmDelete": "¿Eliminar el producto \"%s\" y todas sus variantes? Esta acción no se puede deshacer.",
+            "created": "Producto creado",
+            "updated": "Producto actualizado",
+            "deleted": "Producto eliminado",
+            "fields": {
+                "id": "ID",
+                "name": "Nombre",
+                "brand": "Marca",
+                "category": "Categoría",
+                "price": "Precio (MXN)",
+                "description": "Descripción",
+                "active": "Activo (visible en la tienda)",
+                "status": "Estado"
+            },
+            "errors": {
+                "name": {
+                    "required": "El nombre es obligatorio",
+                    "tooShort": "El nombre debe tener al menos 2 caracteres",
+                    "tooLong": "El nombre no puede pasar de 150 caracteres"
+                },
+                "brand": {
+                    "tooLong": "La marca no puede pasar de 100 caracteres"
+                },
+                "category": {
+                    "tooLong": "La categoría no puede pasar de 50 caracteres"
+                },
+                "description": {
+                    "tooLong": "La descripción no puede pasar de 2000 caracteres"
+                },
+                "price": {
+                    "required": "El precio es obligatorio",
+                    "invalid": "Escribe un precio válido, por ejemplo 1299.90"
+                }
+            }
         }
     },
     "errors": {

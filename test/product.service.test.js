@@ -1,8 +1,8 @@
 /* global jest */
 // Servicio de productos: se simulan los modelos (sin base de datos).
 jest.mock('../models/relationals', () => ({
-  Product: { count: jest.fn(), findAll: jest.fn(), findOne: jest.fn() },
-  ProductVariant: {},
+  Product: { count: jest.fn(), findAll: jest.fn(), findOne: jest.fn(), findByPk: jest.fn() },
+    ProductVariant: {},
   Inventory: {}
 }));
 
@@ -104,5 +104,100 @@ describe('product.service findActiveById', () => {
       expect(await productService.findActiveById(bad)).toBeNull();
     }
     expect(Product.findOne).not.toHaveBeenCalled();
+  });
+});
+
+describe('product.service parseProduct (formulario de administracion)', () => {
+  const ok = { name: 'Tenis Runner', brand: 'Stride', category: 'Running', price: '1299.90', description: 'Ligero', active: 'on' };
+
+  test('datos validos se normalizan', () => {
+    const { data, errors } = productService.parseProduct({ ...ok, name: '  Tenis Runner  ' });
+    expect(errors).toEqual({});
+    expect(data).toEqual({
+      name: 'Tenis Runner', brand: 'Stride', category: 'Running', description: 'Ligero', price: 1299.9, active: true
+    });
+  });
+
+  test('campos opcionales vacios se guardan como null', () => {
+    const { data } = productService.parseProduct({ name: 'Gorra', price: '99' });
+    expect(data).toMatchObject({ brand: null, category: null, description: null, active: false });
+  });
+
+  test('nombre obligatorio, con minimo 2 y maximo 150 caracteres', () => {
+    expect(productService.parseProduct({ ...ok, name: '' }).errors.name).toBe('required');
+    expect(productService.parseProduct({ ...ok, name: 'A' }).errors.name).toBe('tooShort');
+    expect(productService.parseProduct({ ...ok, name: 'x'.repeat(151) }).errors.name).toBe('tooLong');
+  });
+
+  test('precio: obligatorio, sin negativos, letras ni mas de 2 decimales', () => {
+    expect(productService.parseProduct({ ...ok, price: '' }).errors.price).toBe('required');
+    for (const bad of ['-5', 'abc', '1.999', '1,50', '1e3', '123456789']) {
+      expect(productService.parseProduct({ ...ok, price: bad }).errors.price).toBe('invalid');
+    }
+    for (const good of ['0', '10', '10.5', '99999999.99']) {
+      expect(productService.parseProduct({ ...ok, price: good }).errors).toEqual({});
+    }
+  });
+
+  test('marca, categoria y descripcion respetan su longitud maxima', () => {
+    const { errors } = productService.parseProduct({
+      ...ok, brand: 'x'.repeat(101), category: 'x'.repeat(51), description: 'x'.repeat(2001)
+    });
+    expect(errors).toEqual({ brand: 'tooLong', category: 'tooLong', description: 'tooLong' });
+  });
+
+  test('conserva lo escrito para volver a mostrarlo y marca activo solo con on / true', () => {
+    expect(productService.parseProduct({ ...ok, price: 'abc' }).values.price).toBe('abc');
+    expect(productService.parseProduct({ ...ok, active: 'true' }).values.active).toBe(true);
+    expect(productService.parseProduct({ ...ok, active: undefined }).values.active).toBe(false);
+  });
+
+  test('formValues prepara el formulario de edicion', () => {
+    expect(productService.formValues({ name: 'A', brand: null, category: 'Running', price: 99.5, description: null, active: 1 }))
+      .toEqual({ name: 'A', brand: '', category: 'Running', price: '99.5', description: '', active: true });
+  });
+});
+
+describe('product.service administracion (listado, edicion y baja)', () => {
+  test('listAll incluye inactivos, busca en nombre, marca y categoria y pagina de 10', async () => {
+    Product.count.mockResolvedValue(25);
+    const result = await productService.listAll({ q: 'run', page: '2' });
+    const args = Product.findAll.mock.calls[0][0];
+    expect(args.where.active).toBeUndefined();
+    expect(args.where[Op.or]).toHaveLength(3);
+    expect(args).toMatchObject({ limit: 10, offset: 10 });
+    expect(result).toMatchObject({ total: 25, page: 2, totalPages: 3, pageSize: 10 });
+  });
+
+  test('findById: id invalido o inexistente -> null', async () => {
+    expect(await productService.findById('abc')).toBeNull();
+    expect(Product.findByPk).not.toHaveBeenCalled();
+    Product.findByPk.mockResolvedValue(null);
+    expect(await productService.findById(9)).toBeNull();
+  });
+
+  test('findById regresa el producto sin importar si esta activo', async () => {
+    Product.findByPk.mockResolvedValue({ get: () => ({ id: 3, active: false }) });
+    expect(await productService.findById('3')).toEqual({ id: 3, active: false });
+  });
+
+  test('update y remove: null / false si no existe', async () => {
+    Product.findByPk.mockResolvedValue(null);
+    expect(await productService.update(9, { name: 'X' })).toBeNull();
+    expect(await productService.remove(9)).toBe(false);
+  });
+
+  test('update guarda los cambios y remove elimina', async () => {
+    const record = { update: jest.fn(), destroy: jest.fn(), get: () => ({ id: 1, name: 'Nuevo' }) };
+    Product.findByPk.mockResolvedValue(record);
+    expect(await productService.update(1, { name: 'Nuevo' })).toEqual({ id: 1, name: 'Nuevo' });
+    expect(record.update).toHaveBeenCalledWith({ name: 'Nuevo' });
+    expect(await productService.remove(1)).toBe(true);
+    expect(record.destroy).toHaveBeenCalled();
+  });
+
+  test('create regresa el producto creado', async () => {
+    Product.create = jest.fn().mockResolvedValue({ get: () => ({ id: 7 }) });
+    expect(await productService.create({ name: 'Nuevo' })).toEqual({ id: 7 });
   });
 });

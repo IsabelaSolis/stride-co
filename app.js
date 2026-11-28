@@ -25,6 +25,7 @@ const { loadWebUser } = require('./middlewares/webSession');
 var authRouter = require('./routes/api/auth');
 const storeWebRouter = require('./routes/web/store');
 const authWebRouter = require('./routes/web/auth');
+const adminWebRouter = require('./routes/web/admin');
 const authenticate = require('./middlewares/authenticate');
 const errorHandler = require('./middlewares/errorHandler');
 var app = express();
@@ -47,6 +48,7 @@ app.use(loadWebUser);
 //conectamos cada router a un URL especifico
 app.use('/', storeWebRouter);
 app.use('/', authWebRouter);
+app.use('/admin', adminWebRouter);
 app.use('/health', indexRouter);
 // autenticacion: va ANTES de los routers protegidos
 app.use('/api/v1/auth', authRouter);

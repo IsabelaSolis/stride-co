@@ -1,0 +1,24 @@
+extends ../../layouts/admin
+include ../../mixins/formField
+
+block content
+  .card.border-0.shadow-sm(style='max-width:760px')
+    .card-body.p-4
+      form(method='post', action=formAction)
+        +formField('name', __('admin.products.fields.name'), { required: true })
+        .row
+          .col-md-6
+            +formField('brand', __('admin.products.fields.brand'))
+          .col-md-6
+            +formField('category', __('admin.products.fields.category'), { list: 'categoryOptions' })
+        datalist#categoryOptions
+          each item in categories
+            option(value=item)
+        +formField('price', __('admin.products.fields.price'), { type: 'number', step: '0.01', min: '0', required: true })
+        +formField('description', __('admin.products.fields.description'), { type: 'textarea' })
+        .form-check.form-switch.mb-4
+          input#active.form-check-input(type='checkbox', name='active', checked=values.active)
+          label.form-check-label(for='active')= __('admin.products.fields.active')
+        .d-flex.gap-2
+          button.btn.btn-dark(type='submit')= __('admin.common.save')
+          a.btn.btn-outline-secondary(href='/admin/products')= __('admin.common.cancel')

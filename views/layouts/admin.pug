@@ -2,15 +2,16 @@ extends base
 
 block body
   aside.admin-sidebar
-    a.brand.text-white.px-3.mb-3.d-block.text-decoration-none(href='/admin')
+    a.brand.text-white.px-3.mb-3.d-block.text-decoration-none(href='/')
       | STRIDE
       span -CO
     .sidebar-label.text-uppercase.tiny.px-3.mb-3= __('admin.panel')
     nav.nav.flex-column
       each item in adminMenu
-        a.nav-link(href=item.href, class=isActive(item.href) ? 'active' : '')
-          i.bi.me-2(class=item.icon)
-          = __(item.label)
+        if can(item.resource, 'read', 'any')
+          a.nav-link(href=item.href, class=isActive(item.href) ? 'active' : '')
+            i.bi.me-2(class=item.icon)
+            = __(item.label)
     .mt-4.px-2
       a.btn.btn-outline-light.w-100.btn-sm(href='/')
         i.bi.bi-shop.me-1
@@ -30,6 +31,6 @@ block body
             = currentUser.email
           form(method='post', action='/logout')
             button.btn.btn-outline-secondary.btn-sm(type='submit')= __('layout.logout')
-            if flash
-            include ../partials/flash
+    if flash
+      include ../partials/flash
     block content

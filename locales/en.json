@@ -130,7 +130,8 @@
         "footer": {
             "links": "Catalog · Orders · Support",
             "rights": "© 2026 Stride-Co. All rights reserved."
-        }
+        },
+        "adminPanel": "Panel"
     },
     "admin": {
         "panel": "Admin panel",
@@ -145,6 +146,58 @@
             "customers": "Customers",
             "users": "Users",
             "roles": "Roles and permissions"
+        },
+        "common": {
+            "save": "Save",
+            "cancel": "Cancel",
+            "edit": "Edit",
+            "delete": "Delete",
+            "search": "Search",
+            "clear": "Clear",
+            "actions": "Actions",
+            "active": "Active",
+            "inactive": "Inactive"
+        },
+        "products": {
+            "title": "Products",
+            "new": "New product",
+            "edit": "Edit product",
+            "search": "Search by name, brand or category...",
+            "empty": "There are no products yet.",
+            "confirmDelete": "Delete the product \"%s\" and all its variants? This cannot be undone.",
+            "created": "Product created",
+            "updated": "Product updated",
+            "deleted": "Product deleted",
+            "fields": {
+                "id": "ID",
+                "name": "Name",
+                "brand": "Brand",
+                "category": "Category",
+                "price": "Price (MXN)",
+                "description": "Description",
+                "active": "Active (visible in the store)",
+                "status": "Status"
+            },
+            "errors": {
+                "name": {
+                    "required": "Name is required",
+                    "tooShort": "Name must be at least 2 characters",
+                    "tooLong": "Name cannot exceed 150 characters"
+                },
+                "brand": {
+                    "tooLong": "Brand cannot exceed 100 characters"
+                },
+                "category": {
+                    "tooLong": "Category cannot exceed 50 characters"
+                },
+                "description": {
+                    "tooLong": "Description cannot exceed 2000 characters"
+                },
+                "price": {
+                    "required": "Price is required",
+                    "invalid": "Enter a valid price, for example 1299.90"
+                }
+            }
         }
     },
     "errors": {
